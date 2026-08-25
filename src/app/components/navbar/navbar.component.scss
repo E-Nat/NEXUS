@@ -19,11 +19,20 @@
 
 .nav-container {
   max-width: 1380px;
+  width: 100%;
   margin: 0 auto;
   padding: 0 32px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media (max-width: 1023px) {
+    padding: 0 24px;
+  }
+
+  @media (max-width: 767px) {
+    padding: 0 16px;
+  }
 }
 
 /* Brand */
@@ -33,6 +42,7 @@
   gap: 10px;
   text-decoration: none;
   color: var(--text-primary);
+  flex-shrink: 0;
 
   .brand-glyph {
     width: 28px;
@@ -84,6 +94,25 @@
   &:hover .brand-sub {
     color: var(--accent-cyan);
   }
+
+  @media (max-width: 480px) {
+    gap: 8px;
+
+    .brand-glyph {
+      width: 24px;
+      height: 24px;
+    }
+
+    .brand-text {
+      font-size: 1.15rem;
+      letter-spacing: 0.12em;
+    }
+
+    .brand-sub,
+    .brand-version {
+      display: none;
+    }
+  }
 }
 
 /* Nav Menu */
@@ -98,7 +127,7 @@
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 
-  @media (max-width: 960px) {
+  @media (max-width: 1023px) {
     display: none;
   }
 }
@@ -220,7 +249,7 @@
   padding: 10px 24px;
   font-size: 0.8rem;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1023px) {
     display: none;
   }
 }
@@ -256,7 +285,7 @@
     }
   }
 
-  @media (max-width: 960px) {
+  @media (max-width: 1023px) {
     display: flex;
   }
 }
@@ -269,28 +298,32 @@
   width: 100%;
   height: 0;
   overflow: hidden;
-  background: rgba(6, 7, 9, 0.96);
+  background: rgba(6, 7, 9, 0.98);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   transition: height 0.4s var(--ease-out-expo);
   border-bottom: 1px solid var(--border-medium);
+  z-index: 999;
 
   &.drawer-open {
-    height: calc(100vh - 70px);
+    height: calc(100vh - 65px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .drawer-content {
-    padding: 40px 32px;
+    padding: 32px 24px 40px 24px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100%;
+    min-height: 100%;
+    gap: 32px;
   }
 
   .drawer-links {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
   }
 
   .drawer-link {
@@ -299,16 +332,16 @@
     gap: 16px;
     text-decoration: none;
     font-family: var(--font-display);
-    font-size: 1.8rem;
+    font-size: clamp(1.4rem, 5vw, 1.8rem);
     font-weight: 700;
     color: var(--text-secondary);
-    padding: 8px 0;
+    padding: 10px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     transition: color 0.3s ease, transform 0.3s ease;
 
     .drawer-num {
       font-family: var(--font-mono);
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: var(--accent-cyan);
     }
 
@@ -319,7 +352,22 @@
   }
 
   .drawer-footer {
-    padding-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 16px;
+
+    .drawer-audio-toggle {
+      width: 100%;
+      .sound-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 20px;
+        .sound-label {
+          display: inline-block !important;
+        }
+      }
+    }
 
     .w-full {
       width: 100%;

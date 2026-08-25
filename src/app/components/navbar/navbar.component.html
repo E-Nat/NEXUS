@@ -91,7 +91,7 @@
           *ngFor="let item of navItems; let i = index"
           [href]="item.target"
           class="drawer-link"
-          [style.transition-delay]="(i * 60) + 'ms'"
+          [style.transition-delay]="(i * 50) + 'ms'"
           [class.drawer-link-active]="activeSection() === item.label.toLowerCase()"
           (click)="$event.preventDefault(); navigateTo(item.target)">
           <span class="drawer-num">0{{ i + 1 }}</span>
@@ -100,6 +100,17 @@
       </div>
 
       <div class="drawer-footer">
+        <div class="drawer-audio-toggle">
+          <button class="sound-btn w-full" (click)="toggleSound()">
+            <span class="sound-label">{{ soundService.isMuted() ? 'AUDIO: MUTED' : 'AUDIO: ACTIVE' }}</span>
+            <div class="sound-bars" [class.sound-playing]="!soundService.isMuted()">
+              <span class="bar bar-1"></span>
+              <span class="bar bar-2"></span>
+              <span class="bar bar-3"></span>
+              <span class="bar bar-4"></span>
+            </div>
+          </button>
+        </div>
         <button class="btn-nexus-primary w-full" (click)="onReserve()">
           <span>RESERVE NEXUS</span>
           <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">

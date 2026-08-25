@@ -580,24 +580,83 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
   .reveal-stage-viewport {
-    padding: 80px 20px 24px 20px;
+    padding: 85px 24px 28px 24px;
+  }
+}
+
+@media (max-width: 767px) {
+  .reveal-stage-viewport {
+    padding: 75px 16px 20px 16px;
+  }
+
+  .reveal-top-bar {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+
+    .reveal-section-badge {
+      font-size: 0.72rem;
+    }
   }
 
   .reveal-frame {
     justify-content: center !important;
+    align-items: center !important;
     padding: 0 !important;
 
     .frame-content {
       align-items: center !important;
       text-align: center !important;
-      max-width: 90vw;
+      max-width: 92vw;
+      width: 100%;
+    }
+
+    .frame-title {
+      font-size: clamp(1.8rem, 6.5vw, 3rem);
+      margin-bottom: 0.8rem;
+    }
+
+    .frame-desc {
+      font-size: clamp(0.85rem, 3.2vw, 1rem);
+      line-height: 1.5;
+      margin-bottom: 1rem;
+      padding: 0 4px;
+    }
+
+    .frame-telemetry-pill {
+      max-width: 100%;
+      font-size: 0.65rem;
+      padding: 6px 12px;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    &.frame-02, &.frame-03 {
+      justify-content: center !important;
+      padding: 0 !important;
+
+      .frame-content {
+        align-items: center !important;
+        text-align: center !important;
+      }
     }
 
     &.frame-04 {
+      justify-content: center !important;
+      align-items: center !important;
+
       .grand-headline {
-        font-size: clamp(2.4rem, 8vw, 3.6rem);
+        font-size: clamp(2rem, 7.5vw, 3.4rem);
+        line-height: 0.98;
+      }
+
+      .grand-supporting-text {
+        font-size: clamp(0.88rem, 3.2vw, 1.05rem);
+        padding: 0 8px;
+        line-height: 1.45;
       }
     }
   }

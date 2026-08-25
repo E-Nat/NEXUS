@@ -2,8 +2,8 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background-color: #040507;
   z-index: 99999;
   display: flex;
@@ -38,7 +38,8 @@
   align-items: center;
   text-align: center;
   max-width: 500px;
-  padding: 0 24px;
+  width: 100%;
+  padding: 0 20px;
 }
 
 .pre-telemetry {
@@ -96,12 +97,12 @@
 
   .pre-letters {
     display: flex;
-    gap: 0.35em;
+    gap: 0.3em;
 
     .pre-char {
       display: inline-block;
       font-family: var(--font-display);
-      font-size: clamp(3.5rem, 8vw, 6rem);
+      font-size: clamp(2.6rem, 8vw, 6rem);
       font-weight: 900;
       letter-spacing: 0.15em;
       color: #ffffff;
@@ -112,11 +113,11 @@
 
 .pre-subtitle {
   font-family: var(--font-tech);
-  font-size: 1rem;
+  font-size: clamp(0.75rem, 2.5vw, 1rem);
   letter-spacing: 0.35em;
   color: var(--text-secondary);
   text-transform: uppercase;
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
 }
 
 .pre-progress-box {

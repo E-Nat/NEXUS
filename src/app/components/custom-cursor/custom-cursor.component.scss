@@ -96,7 +96,7 @@
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1024px), (hover: none), (pointer: coarse) {
   .cursor-dot, .cursor-follower {
     display: none !important;
   }
