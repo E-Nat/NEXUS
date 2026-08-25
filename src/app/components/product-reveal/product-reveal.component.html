@@ -22,6 +22,7 @@
       <app-product-label
         *ngFor="let label of labels; trackBy: trackByLabelId"
         [detail]="label"
+        [status]="getCardStatus(label)"
         [active]="isLabelActive(label)"
         [isMobile]="isMobile"
         (select)="onLabelSelect($event)">

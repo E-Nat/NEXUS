@@ -1,6 +1,9 @@
 <div
   class="product-label-node"
-  [class.node-active]="active"
+  [class.node-hidden]="!isVisible"
+  [class.node-active]="status === 'active'"
+  [class.node-completed]="status === 'completed'"
+  [class.node-visible]="isVisible"
   [class.node-mobile]="isMobile"
   [class.card-order-1]="detail.order === 1"
   [class.card-order-2]="detail.order === 2"

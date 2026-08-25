@@ -17,7 +17,7 @@ import { DataService } from '../../services/data.service';
 import { SoundService } from '../../services/sound.service';
 import { CursorService } from '../../services/cursor.service';
 import { AnimationService } from '../../services/animation.service';
-import { ProductDetail, ProductRevealFrame } from '../../models/product-reveal.model';
+import { ProductDetail, ProductRevealFrame, CardStatus } from '../../models/product-reveal.model';
 import { ProductSceneComponent } from './product-scene/product-scene.component';
 import { ProductLabelComponent } from './product-label/product-label.component';
 
@@ -38,7 +38,8 @@ export class ProductRevealComponent implements OnInit, AfterViewInit, OnDestroy 
   @ViewChild('pinnedSection', { static: true }) pinnedSectionRef!: ElementRef<HTMLElement>;
   @ViewChild('productScene') productSceneComponent?: ProductSceneComponent;
 
-  readonly activeFrameIndex = signal<number>(1);
+  readonly currentPhase = signal<number>(1);
+  readonly activeFrameIndex = this.currentPhase; // alias for template backward compatibility
   readonly scrollProgressPercent = signal<number>(0);
   readonly activeMode = signal<'monolith' | 'exploded' | 'quantum'>('monolith');
   readonly selectedLabel = signal<ProductDetail | null>(null);
@@ -66,6 +67,8 @@ export class ProductRevealComponent implements OnInit, AfterViewInit, OnDestroy 
     this.frames = this.dataService.productRevealFrames;
     if (this.isBrowser) {
       this.checkViewport();
+      console.log('PHASE → 1');
+      console.log('CARD 01 → reveal');
     }
   }
 
@@ -134,21 +137,40 @@ export class ProductRevealComponent implements OnInit, AfterViewInit, OnDestroy 
         // 0.25 - 0.50 -> Phase 02: Explore ("DESIGNED TO MOVE")
         // 0.50 - 0.75 -> Phase 03: Adapt ("DESIGNED TO ADAPT")
         // 0.75 - 1.00 -> Phase 04: Horizon ("THE NEXT EXPERIENCE")
-        let frame = 1;
+        let targetFrame = 1;
         if (p >= 0.75) {
-          frame = 4;
+          targetFrame = 4;
         } else if (p >= 0.50) {
-          frame = 3;
+          targetFrame = 3;
         } else if (p >= 0.25) {
-          frame = 2;
+          targetFrame = 2;
         }
 
-        if (this.activeFrameIndex() !== frame) {
-          this.activeFrameIndex.set(frame);
-          this.soundService.playChime(380 + frame * 80, 'sine', 0.03, 0.4);
-        }
+        this.setPhase(targetFrame);
       }
     });
+  }
+
+  /**
+   * Transition phase state deterministically and sequentially
+   */
+  public setPhase(targetPhase: number): void {
+    const current = this.currentPhase();
+    if (targetPhase === current) return;
+
+    if (targetPhase > current) {
+      for (let p = current + 1; p <= targetPhase; p++) {
+        console.log(`PHASE → ${p}`);
+        console.log(`CARD 0${p} → reveal`);
+        this.soundService.playChime(380 + p * 80, 'sine', 0.03, 0.4);
+      }
+    } else {
+      for (let p = current - 1; p >= targetPhase; p--) {
+        console.log(`PHASE → ${p}`);
+      }
+    }
+
+    this.currentPhase.set(targetPhase);
   }
 
   private updateParallax(p: number): void {
@@ -174,16 +196,28 @@ export class ProductRevealComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   /**
-   * Deterministic sequential phase-to-card reveal:
-   * Card 01 -> revealed when phase >= 1
-   * Card 02 -> revealed when phase >= 2
-   * Card 03 -> revealed when phase >= 3
-   * Card 04 -> revealed when phase >= 4
+   * Deterministic mapping from currentPhase:
+   * currentPhase = 1 -> Card 01 active, others hidden
+   * currentPhase = 2 -> Card 01 completed, Card 02 active, others hidden
+   * currentPhase = 3 -> Card 01/02 completed, Card 03 active, Card 04 hidden
+   * currentPhase = 4 -> Card 01/02/03 completed, Card 04 active
    */
+  public getCardStatus(label: ProductDetail): CardStatus {
+    const phase = this.currentPhase();
+    const cardPhase = label.phase ?? label.order ?? 1;
+
+    if (phase < cardPhase) {
+      return 'hidden';
+    } else if (phase === cardPhase) {
+      return 'active';
+    } else {
+      return 'completed';
+    }
+  }
+
   public isLabelActive(label: ProductDetail): boolean {
-    const currentPhase = this.activeFrameIndex();
-    const requiredPhase = label.order ?? 1;
-    return currentPhase >= requiredPhase;
+    const status = this.getCardStatus(label);
+    return status === 'active' || status === 'completed';
   }
 
   public trackByLabelId(index: number, item: ProductDetail): string {

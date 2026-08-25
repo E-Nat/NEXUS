@@ -1,6 +1,9 @@
+export type CardStatus = 'hidden' | 'active' | 'completed';
+
 export interface ProductDetail {
   id: string;
   order: number; // 1, 2, 3, 4
+  phase: number; // 1, 2, 3, 4
   label: string;
   title: string;
   subtitle: string;

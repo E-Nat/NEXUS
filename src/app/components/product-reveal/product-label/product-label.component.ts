@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProductDetail } from '../../../models/product-reveal.model';
+import { ProductDetail, CardStatus } from '../../../models/product-reveal.model';
 import { SoundService } from '../../../services/sound.service';
 import { CursorService } from '../../../services/cursor.service';
 
@@ -13,6 +13,7 @@ import { CursorService } from '../../../services/cursor.service';
 })
 export class ProductLabelComponent {
   @Input({ required: true }) detail!: ProductDetail;
+  @Input() status: CardStatus = 'hidden';
   @Input() active = false;
   @Input() isMobile = false;
 
@@ -22,6 +23,10 @@ export class ProductLabelComponent {
     private soundService: SoundService,
     private cursorService: CursorService
   ) {}
+
+  public get isVisible(): boolean {
+    return this.status === 'active' || this.status === 'completed' || this.active;
+  }
 
   public onMouseEnter(): void {
     this.soundService.playHover();

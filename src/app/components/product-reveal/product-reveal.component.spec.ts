@@ -51,39 +51,68 @@ describe('ProductRevealComponent - Scroll-driven card animation sequencing', () 
     expect(card04!.activeInFrames).toEqual([4]);
   });
 
-  it('should reveal cards strictly in order Phase 01: [01], Phase 02: [01, 02], Phase 03: [01, 02, 03], Phase 04: [01, 02, 03, 04]', () => {
+  it('should map cardStatus strictly: hidden | active | completed from currentPhase', () => {
     const card01 = component.labels.find(l => l.id === 'core')!;
     const card02 = component.labels.find(l => l.id === 'system')!;
     const card03 = component.labels.find(l => l.id === 'interface')!;
     const card04 = component.labels.find(l => l.id === 'material')!;
 
-    // Phase 01
-    component.activeFrameIndex.set(1);
-    expect(component.isLabelActive(card01)).toBeTrue();
-    expect(component.isLabelActive(card02)).toBeFalse();
-    expect(component.isLabelActive(card03)).toBeFalse();
-    expect(component.isLabelActive(card04)).toBeFalse();
+    // currentPhase = 1 -> card01 active, card02/03/04 hidden
+    component.currentPhase.set(1);
+    expect(component.getCardStatus(card01)).toBe('active');
+    expect(component.getCardStatus(card02)).toBe('hidden');
+    expect(component.getCardStatus(card03)).toBe('hidden');
+    expect(component.getCardStatus(card04)).toBe('hidden');
 
-    // Phase 02
-    component.activeFrameIndex.set(2);
-    expect(component.isLabelActive(card01)).toBeTrue();
-    expect(component.isLabelActive(card02)).toBeTrue();
-    expect(component.isLabelActive(card03)).toBeFalse();
-    expect(component.isLabelActive(card04)).toBeFalse();
+    // currentPhase = 2 -> card01 completed, card02 active, card03/04 hidden
+    component.currentPhase.set(2);
+    expect(component.getCardStatus(card01)).toBe('completed');
+    expect(component.getCardStatus(card02)).toBe('active');
+    expect(component.getCardStatus(card03)).toBe('hidden');
+    expect(component.getCardStatus(card04)).toBe('hidden');
 
-    // Phase 03
-    component.activeFrameIndex.set(3);
-    expect(component.isLabelActive(card01)).toBeTrue();
-    expect(component.isLabelActive(card02)).toBeTrue();
-    expect(component.isLabelActive(card03)).toBeTrue();
-    expect(component.isLabelActive(card04)).toBeFalse();
+    // currentPhase = 3 -> card01 completed, card02 completed, card03 active, card04 hidden
+    component.currentPhase.set(3);
+    expect(component.getCardStatus(card01)).toBe('completed');
+    expect(component.getCardStatus(card02)).toBe('completed');
+    expect(component.getCardStatus(card03)).toBe('active');
+    expect(component.getCardStatus(card04)).toBe('hidden');
 
-    // Phase 04
-    component.activeFrameIndex.set(4);
-    expect(component.isLabelActive(card01)).toBeTrue();
-    expect(component.isLabelActive(card02)).toBeTrue();
-    expect(component.isLabelActive(card03)).toBeTrue();
-    expect(component.isLabelActive(card04)).toBeTrue();
+    // currentPhase = 4 -> card01 completed, card02 completed, card03 completed, card04 active
+    component.currentPhase.set(4);
+    expect(component.getCardStatus(card01)).toBe('completed');
+    expect(component.getCardStatus(card02)).toBe('completed');
+    expect(component.getCardStatus(card03)).toBe('completed');
+    expect(component.getCardStatus(card04)).toBe('active');
+  });
+
+  it('should log strictly in sequential order PHASE → 1..4 and CARD 01..04 → reveal', () => {
+    const consoleSpy = spyOn(console, 'log');
+
+    component.currentPhase.set(1);
+    component.setPhase(4);
+
+    expect(consoleSpy).toHaveBeenCalledWith('PHASE → 2');
+    expect(consoleSpy).toHaveBeenCalledWith('CARD 02 → reveal');
+    expect(consoleSpy).toHaveBeenCalledWith('PHASE → 3');
+    expect(consoleSpy).toHaveBeenCalledWith('CARD 03 → reveal');
+    expect(consoleSpy).toHaveBeenCalledWith('PHASE → 4');
+    expect(consoleSpy).toHaveBeenCalledWith('CARD 04 → reveal');
+
+    // Verify ordering in call arguments
+    const logs = consoleSpy.calls.allArgs().map(a => a[0]);
+    const phase2Idx = logs.indexOf('PHASE → 2');
+    const card2Idx = logs.indexOf('CARD 02 → reveal');
+    const phase3Idx = logs.indexOf('PHASE → 3');
+    const card3Idx = logs.indexOf('CARD 03 → reveal');
+    const phase4Idx = logs.indexOf('PHASE → 4');
+    const card4Idx = logs.indexOf('CARD 04 → reveal');
+
+    expect(phase2Idx).toBeLessThan(card2Idx);
+    expect(card2Idx).toBeLessThan(phase3Idx);
+    expect(phase3Idx).toBeLessThan(card3Idx);
+    expect(card3Idx).toBeLessThan(phase4Idx);
+    expect(phase4Idx).toBeLessThan(card4Idx);
   });
 
   it('should never allow Card 02 to be visible before Card 01', () => {
