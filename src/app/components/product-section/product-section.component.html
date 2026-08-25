@@ -1,0 +1,103 @@
+<section #productSection id="product-section" class="product-section">
+  
+  <!-- Decorative Parallax Rings -->
+  <div class="prod-deco-ring ring-1"></div>
+  <div class="prod-deco-ring ring-2"></div>
+
+  <div class="product-container">
+    
+    <!-- Section Header -->
+    <div class="product-header">
+      <div class="section-label prod-reveal">
+        <span>01 // ARCHITECTURE</span>
+      </div>
+      <h2 class="product-title prod-reveal">
+        <span class="text-gradient-silver">THE NEXT</span><br>
+        <span class="text-gradient-cyan">EXPERIENCE.</span>
+      </h2>
+      <p class="product-subtitle prod-reveal">
+        Engineered with sub-micron tolerances, NEXUS merges quantum computational power with crystalline optical transmission.
+      </p>
+    </div>
+
+    <!-- Interactive Mode Switcher -->
+    <div class="product-mode-bar prod-reveal">
+      <button
+        *ngFor="let mode of modes"
+        class="mode-btn"
+        [class.mode-btn-active]="activeMode() === mode.id"
+        (click)="setProductMode(mode.id)"
+        (mouseenter)="onHover(mode.name)"
+        (mouseleave)="onLeave()">
+        <span class="mode-dot"></span>
+        <span class="mode-text">{{ mode.name }}</span>
+      </button>
+    </div>
+
+    <!-- Product Stage Layout (Hotspot Overlays & Technical Breakdown) -->
+    <div class="product-stage">
+      
+      <!-- Interactive Hotspots Overlay -->
+      <div class="hotspots-layer">
+        <button
+          *ngFor="let spot of hotspots"
+          class="hotspot-pin"
+          [class.hotspot-selected]="selectedHotspot()?.id === spot.id"
+          [style.left.%]="spot.screenPercent.x"
+          [style.top.%]="spot.screenPercent.y"
+          (click)="selectHotspot(spot)"
+          (mouseenter)="onHover(spot.badge)"
+          (mouseleave)="onLeave()">
+          <span class="hotspot-pulse"></span>
+          <span class="hotspot-dot"></span>
+          <span class="hotspot-tag font-mono">{{ spot.badge }}</span>
+        </button>
+      </div>
+
+      <!-- Active Hotspot Technical Detail Card -->
+      <div class="hotspot-detail-card glass-panel" *ngIf="selectedHotspot() as spot">
+        <div class="card-corner-top"></div>
+        <div class="card-badge-row">
+          <span class="nexus-badge">
+            <span class="badge-dot"></span>
+            <span>SUB-SYSTEM: {{ spot.badge }}</span>
+          </span>
+          <span class="card-coord font-mono">X:{{ spot.position.x }} Y:{{ spot.position.y }}</span>
+        </div>
+        <h3 class="card-title">{{ spot.title }}</h3>
+        <span class="card-sub font-mono">{{ spot.subtitle }}</span>
+        <p class="card-desc">{{ spot.description }}</p>
+      </div>
+
+    </div>
+
+    <!-- Technical Spec Highlight Strip -->
+    <div class="product-features-strip glass-panel prod-reveal">
+      <div class="strip-item">
+        <span class="strip-num font-mono">01</span>
+        <div class="strip-info">
+          <h4 class="strip-title">Direct Retinal Waveguide</h4>
+          <p class="strip-desc">Coherent photon delivery direct to visual cortex.</p>
+        </div>
+      </div>
+      <div class="strip-sep"></div>
+      <div class="strip-item">
+        <span class="strip-num font-mono">02</span>
+        <div class="strip-info">
+          <h4 class="strip-title">Cryo-Solid Battery</h4>
+          <p class="strip-desc">24-hour continuous quantum endurance.</p>
+        </div>
+      </div>
+      <div class="strip-sep"></div>
+      <div class="strip-item">
+        <span class="strip-num font-mono">03</span>
+        <div class="strip-info">
+          <h4 class="strip-title">Vapor Obsidian Unibody</h4>
+          <p class="strip-desc">Ultra-light aerospace titanium frame.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</section>

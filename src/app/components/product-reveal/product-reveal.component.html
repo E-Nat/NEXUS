@@ -1,0 +1,206 @@
+<section #pinnedSection id="product-reveal-section" class="product-reveal-section">
+  
+  <!-- Subtle Background Atmospheric Environment -->
+  <div class="reveal-backdrop">
+    <div class="reveal-ambient-glow"></div>
+    <div class="reveal-technical-grid"></div>
+    <div class="reveal-parallax-ring ring-1"></div>
+    <div class="reveal-parallax-ring ring-2"></div>
+  </div>
+
+  <!-- Pinned Content Viewport -->
+  <div class="reveal-stage-viewport" [class.reveal-exiting]="isExiting()">
+
+    <!-- 3D Three.js Visual Scene (Interactive NEXUS Product) -->
+    <app-product-scene
+      #productScene
+      [interactiveMode]="activeMode()">
+    </app-product-scene>
+
+    <!-- Floating Technical Labels Layer -->
+    <div class="reveal-labels-overlay">
+      <app-product-label
+        *ngFor="let label of labels"
+        [detail]="label"
+        [active]="isLabelActive(label)"
+        [isMobile]="isMobile"
+        (select)="onLabelSelect($event)">
+      </app-product-label>
+    </div>
+
+    <!-- Top Telemetry & Mode Controls Bar -->
+    <header class="reveal-top-bar">
+      
+      <!-- Section Label & Breadcrumb -->
+      <div class="reveal-section-badge">
+        <span class="nexus-badge">
+          <span class="badge-dot"></span>
+          <span>01 // ARCHITECTURE & REVEAL</span>
+        </span>
+      </div>
+
+      <!-- Interactive View Mode Switcher -->
+      <div class="reveal-mode-switcher">
+        <button
+          class="mode-pill-btn"
+          [class.mode-pill-active]="activeMode() === 'monolith'"
+          (click)="setMode('monolith')"
+          (mouseenter)="onHover('MONOLITH')"
+          (mouseleave)="onLeave()">
+          <span class="pill-dot"></span>
+          <span class="pill-text">MONOLITH</span>
+        </button>
+
+        <button
+          class="mode-pill-btn"
+          [class.mode-pill-active]="activeMode() === 'exploded'"
+          (click)="setMode('exploded')"
+          (mouseenter)="onHover('EXPLODED VIEW')"
+          (mouseleave)="onLeave()">
+          <span class="pill-dot"></span>
+          <span class="pill-text">EXPLODED</span>
+        </button>
+
+        <button
+          class="mode-pill-btn"
+          [class.mode-pill-active]="activeMode() === 'quantum'"
+          (click)="setMode('quantum')"
+          (mouseenter)="onHover('QUANTUM FLUX')"
+          (mouseleave)="onLeave()">
+          <span class="pill-dot"></span>
+          <span class="pill-text">QUANTUM</span>
+        </button>
+      </div>
+
+      <!-- Live Phase Indicator -->
+      <div class="reveal-phase-tag font-mono">
+        <span class="phase-label">PHASE:</span>
+        <span class="phase-val text-gradient-cyan">0{{ activeFrameIndex() }} / 04</span>
+      </div>
+
+    </header>
+
+    <!-- Storyboard Dynamic Editorial Typography Panels -->
+    <div class="reveal-content-container">
+
+      <!-- FRAME 01: Initial Genesis Reveal -->
+      <div class="reveal-frame frame-01" [class.frame-active]="activeFrameIndex() === 1">
+        <div class="frame-content">
+          <span class="frame-meta-tag font-mono">GENESIS // 01</span>
+          <h2 class="frame-title">
+            <span class="title-mask"><span class="title-word text-gradient-silver">NEXUS</span></span><br>
+            <span class="title-mask"><span class="title-word text-gradient-cyan">ARISES.</span></span>
+          </h2>
+          <p class="frame-desc">
+            A monolithic synthesis of quantum computing and bespoke physical form enters the sensory field.
+          </p>
+          <div class="scroll-prompt font-mono">
+            <span class="prompt-arrow">↓</span>
+            <span>SCROLL TO EXPLORE ARCHITECTURE</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- FRAME 02: Kinematics (Designed to Move) -->
+      <div class="reveal-frame frame-02" [class.frame-active]="activeFrameIndex() === 2">
+        <div class="frame-content">
+          <span class="frame-meta-tag font-mono">02 // KINEMATICS</span>
+          <h2 class="frame-title">
+            <span class="title-mask"><span class="title-word text-gradient-silver">DESIGNED TO</span></span><br>
+            <span class="title-mask"><span class="title-word text-gradient-cyan">MOVE.</span></span>
+          </h2>
+          <p class="frame-desc">
+            Engineered with triple-gimbal titanium articulation that responds dynamically to human presence and optical gaze.
+          </p>
+          <div class="frame-telemetry-pill font-mono">
+            <span class="pill-stat"><strong class="stat-num">360°</strong> TRI-AXIAL GYRO</span>
+            <span class="pill-sep">//</span>
+            <span class="pill-stat"><strong class="stat-num">0.02ms</strong> LATENCY</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- FRAME 03: Neural Adaptation (Designed to Adapt) -->
+      <div class="reveal-frame frame-03" [class.frame-active]="activeFrameIndex() === 3">
+        <div class="frame-content">
+          <span class="frame-meta-tag font-mono">03 // ADAPTIVE COGNITION</span>
+          <h2 class="frame-title">
+            <span class="title-mask"><span class="title-word text-gradient-silver">DESIGNED TO</span></span><br>
+            <span class="title-mask"><span class="title-word text-gradient-plasma">ADAPT.</span></span>
+          </h2>
+          <p class="frame-desc">
+            Continuous spatial resonance reconfigures internal photonic waveguides to mirror subconscious intent in real time.
+          </p>
+          <div class="frame-telemetry-pill font-mono">
+            <span class="pill-stat"><strong class="stat-num">1.2B</strong> SYNAPTIC NODES</span>
+            <span class="pill-sep">//</span>
+            <span class="pill-stat"><strong class="stat-num">400 Gbps</strong> PHOTONIC BUS</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- FRAME 04: The Grand Reveal ("THE NEXT EXPERIENCE") -->
+      <div class="reveal-frame frame-04" [class.frame-active]="activeFrameIndex() === 4">
+        <div class="frame-content frame-hero-content">
+          
+          <div class="frame-header-group">
+            <span class="frame-meta-tag font-mono">04 // THE HORIZON</span>
+            
+            <h2 class="grand-headline">
+              <span class="headline-mask"><span class="headline-word text-gradient-silver">THE NEXT</span></span>
+              <span class="headline-mask"><span class="headline-word text-gradient-cyan">EXPERIENCE.</span></span>
+            </h2>
+
+            <p class="grand-supporting-text">
+              "Designed around interaction. Built for what comes next."
+            </p>
+          </div>
+
+          <!-- Bottom Technical Spec Highlight Strip -->
+          <div class="reveal-specs-strip glass-panel">
+            <div class="strip-spec-item">
+              <span class="spec-idx font-mono">01</span>
+              <div class="spec-text-block">
+                <h4 class="spec-h">Direct Retinal Waveguide</h4>
+                <p class="spec-p">Coherent photon delivery direct to visual cortex.</p>
+              </div>
+            </div>
+            <div class="strip-divider"></div>
+            <div class="strip-spec-item">
+              <span class="spec-idx font-mono">02</span>
+              <div class="spec-text-block">
+                <h4 class="spec-h">Cryo-Solid Battery</h4>
+                <p class="spec-p">24-hour continuous quantum endurance.</p>
+              </div>
+            </div>
+            <div class="strip-divider"></div>
+            <div class="strip-spec-item">
+              <span class="spec-idx font-mono">03</span>
+              <div class="spec-text-block">
+                <h4 class="spec-h">Vapor Obsidian Unibody</h4>
+                <p class="spec-p">Ultra-light aerospace titanium frame.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Side Vertical Storyboard Progress Rail -->
+    <aside class="reveal-progress-rail" aria-label="Section progress">
+      <div class="rail-track">
+        <div class="rail-thumb" [style.height.%]="scrollProgressPercent()"></div>
+      </div>
+      <div class="rail-steps">
+        <span class="rail-step" [class.step-active]="activeFrameIndex() === 1">01</span>
+        <span class="rail-step" [class.step-active]="activeFrameIndex() === 2">02</span>
+        <span class="rail-step" [class.step-active]="activeFrameIndex() === 3">03</span>
+        <span class="rail-step" [class.step-active]="activeFrameIndex() === 4">04</span>
+      </div>
+    </aside>
+
+  </div>
+
+</section>

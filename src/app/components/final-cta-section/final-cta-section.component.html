@@ -1,0 +1,190 @@
+<section #ctaSection id="final-cta-section" class="final-cta-section">
+  
+  <!-- Radial Vortex Backdrop -->
+  <div class="cta-vortex-glow"></div>
+
+  <div class="cta-container">
+    
+    <!-- Header Meta -->
+    <div class="nexus-badge cta-badge cta-reveal">
+      <span class="badge-dot"></span>
+      <span>INCEPTION PHASE // OPEN ALLOCATION</span>
+    </div>
+
+    <!-- Dramatic Headline -->
+    <div class="cta-title-wrap cta-reveal">
+      <h2 class="cta-headline">
+        <span class="text-gradient-silver">READY FOR</span><br>
+        <span class="text-gradient-cyan">WHAT'S NEXT?</span>
+      </h2>
+    </div>
+
+    <!-- Supporting Text -->
+    <p class="cta-description cta-reveal">
+      Experience NEXUS. Join the visionary pioneer cohort and receive exclusive early access to the inaugural batch of quantum neural terminals.
+    </p>
+
+    <!-- Main Dramatic Button -->
+    <div class="cta-btn-wrap cta-reveal">
+      <button
+        #enterBtn
+        class="btn-nexus-primary cta-mega-btn"
+        (click)="openReservationModal()"
+        (mouseenter)="onHover('ENTER NEXUS')"
+        (mouseleave)="onLeave()">
+        <span>ENTER NEXUS</span>
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Security & Batch Telemetry -->
+    <div class="cta-telemetry-row cta-reveal font-mono">
+      <span>ALLOCATION #0{{ allocationNumber }}</span>
+      <span class="sep">//</span>
+      <span>GLOBAL BATCH: 2,500 UNITS</span>
+      <span class="sep">//</span>
+      <span>POST-QUANTUM CRYPTOGRAPHY</span>
+    </div>
+
+  </div>
+
+  <!-- Luxury Standalone Site Footer -->
+  <footer class="nexus-footer">
+    <div class="footer-container">
+      
+      <div class="footer-minimal-card glass-panel">
+        <div class="footer-minimal-left">
+          <div class="footer-brand-tag">
+            <span class="brand-text">NEXUS</span>
+            <span class="brand-divider font-mono">/</span>
+            <span class="brand-year font-mono">2026</span>
+          </div>
+          <p class="footer-creator font-tech">Designed &amp; Developed by <strong>E-NAT</strong></p>
+          <div class="footer-stack font-mono">Angular · TypeScript · Three.js · GSAP</div>
+        </div>
+
+        <div class="footer-minimal-right">
+          <div class="footer-telemetry font-mono">
+            <span class="live-dot"></span>
+            <span>SYSTEM ONLINE // {{ currentTimeUtc() }}</span>
+          </div>
+          <button class="back-to-top font-mono" (click)="scrollToTop()" (mouseenter)="onHover('BACK TO TOP')" (mouseleave)="onLeave()">
+            <span>TOP</span>
+            <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M8 13V3M3 8l5-5 5 5"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="footer-sub-copyright font-mono">
+        &copy; 2026 NEXUS. ALL RIGHTS RESERVED.
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Interactive Pre-Order / Reservation Modal -->
+  <div class="reservation-modal-backdrop" *ngIf="isModalOpen()" (click)="closeReservationModal()">
+    <div class="reservation-modal glass-panel-elevated" (click)="$event.stopPropagation()">
+      
+      <div class="res-header">
+        <div>
+          <div class="nexus-badge">
+            <span class="badge-dot"></span>
+            <span>VIP ALLOCATION // PRIORITY ACCESS</span>
+          </div>
+          <h3 class="res-title">RESERVE YOUR NEXUS</h3>
+        </div>
+        <button class="modal-close-btn" (click)="closeReservationModal()" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- If submitted confirmation -->
+      <div class="res-confirmation" *ngIf="isSubmitted()">
+        <div class="confirm-badge">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="var(--accent-cyan)" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="9 12 12 15 16 10"></polyline>
+          </svg>
+        </div>
+        <h4 class="confirm-title">ALLOCATION CONFIRMED</h4>
+        <p class="confirm-sub">Welcome to the future of neural computing.</p>
+        <div class="confirm-ticket font-mono">
+          <div>RESERVATION ID: #NX-{{ allocationNumber }}-2026</div>
+          <div>EDITION: {{ selectedEdition().toUpperCase() }} TITANIUM</div>
+          <div>DISPATCH QUEUE: BATCH 01 (Q4 2026)</div>
+        </div>
+        <button class="btn-nexus-primary" (click)="closeReservationModal()">
+          <span>RETURN TO EXPERIENCE</span>
+        </button>
+      </div>
+
+      <!-- Reservation Form -->
+      <form class="res-form" *ngIf="!isSubmitted()" (ngSubmit)="submitReservation()">
+        
+        <!-- Edition Selector -->
+        <div class="edition-group">
+          <span class="field-label font-mono">CHOOSE EDITION</span>
+          <div class="edition-cards">
+            <div
+              class="edition-card"
+              [class.edition-active]="selectedEdition() === 'obsidian'"
+              (click)="selectEdition('obsidian')">
+              <div class="edition-dot dot-obsidian"></div>
+              <div class="edition-name">Monolith Obsidian</div>
+              <div class="edition-desc font-mono">Vapor Matte Titanium</div>
+            </div>
+            <div
+              class="edition-card"
+              [class.edition-active]="selectedEdition() === 'stellar'"
+              (click)="selectEdition('stellar')">
+              <div class="edition-dot dot-stellar"></div>
+              <div class="edition-name">Stellar Frost</div>
+              <div class="edition-desc font-mono">Cryo Sapphire &amp; Silver</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Input Fields -->
+        <div class="input-group">
+          <label class="field-label font-mono">FULL NAME</label>
+          <input
+            type="text"
+            [(ngModel)]="name"
+            name="name"
+            placeholder="e.g. Dr. Alex Vance"
+            class="nexus-input"
+            required>
+        </div>
+
+        <div class="input-group">
+          <label class="field-label font-mono">QUANTUM NETWORK / EMAIL</label>
+          <input
+            type="email"
+            [(ngModel)]="email"
+            name="email"
+            placeholder="alex@nexus.internal"
+            class="nexus-input"
+            required>
+        </div>
+
+        <div class="res-actions">
+          <button type="submit" class="btn-nexus-primary w-full" [disabled]="!email">
+            <span>LOCK RESERVATION // BATCH #0{{ allocationNumber }}</span>
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+</section>

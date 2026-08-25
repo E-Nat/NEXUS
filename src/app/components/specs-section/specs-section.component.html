@@ -1,0 +1,153 @@
+<section #specsSection id="specs-section" class="specs-section">
+  
+  <!-- Technical Grid Background Wireframe -->
+  <div class="technical-grid-bg">
+    <div class="hud-scanline"></div>
+    <div class="blueprint-crosshair top-left"></div>
+    <div class="blueprint-crosshair top-right"></div>
+    <div class="blueprint-crosshair bottom-left"></div>
+    <div class="blueprint-crosshair bottom-right"></div>
+  </div>
+
+  <div class="specs-container">
+    
+    <!-- Header -->
+    <div class="specs-header">
+      <div class="section-label spec-reveal">
+        <span>03 // SPECIFICATIONS</span>
+      </div>
+      <h2 class="specs-title spec-reveal">
+        <span class="text-gradient-silver">BUILT FOR</span><br>
+        <span class="text-gradient-cyan">WHAT'S NEXT.</span>
+      </h2>
+      <p class="specs-intro spec-reveal">
+        Every component is calibrated for maximum throughput, sub-picosecond latency, and uncompromising thermal resilience.
+      </p>
+    </div>
+
+    <!-- Key Metrics Grid (Animated Counter Cards) -->
+    <div class="metrics-grid">
+      
+      <!-- Metric 1: 98% Performance -->
+      <div class="metric-card glass-panel spec-reveal" (mouseenter)="onHover('EFFICIENCY')" (mouseleave)="onLeave()">
+        <div class="card-glow"></div>
+        <div class="hud-corner-top-left"></div>
+        <div class="hud-corner-bottom-right"></div>
+        <div class="metric-val-wrap">
+          <span class="counter-val font-display" data-val="98" data-suffix="%">98%</span>
+        </div>
+        <h3 class="metric-title font-tech">PERFORMANCE</h3>
+        <p class="metric-desc">Quantum efficiency scaling with zero thermal throttling under load.</p>
+        <div class="metric-bar-track">
+          <div class="metric-bar-fill" style="width: 98%;"></div>
+        </div>
+      </div>
+
+      <!-- Metric 2: 24H Battery -->
+      <div class="metric-card glass-panel spec-reveal" (mouseenter)="onHover('ENDURANCE')" (mouseleave)="onLeave()">
+        <div class="card-glow"></div>
+        <div class="hud-corner-top-left"></div>
+        <div class="hud-corner-bottom-right"></div>
+        <div class="metric-val-wrap">
+          <span class="counter-val font-display" data-val="24" data-suffix="H">24H</span>
+        </div>
+        <h3 class="metric-title font-tech">BATTERY</h3>
+        <p class="metric-desc">Continuous operational endurance with kinetic ambient harvesting.</p>
+        <div class="metric-bar-track">
+          <div class="metric-bar-fill" style="width: 100%;"></div>
+        </div>
+      </div>
+
+      <!-- Metric 3: 120Hz Display -->
+      <div class="metric-card glass-panel spec-reveal" (mouseenter)="onHover('REFRESH')" (mouseleave)="onLeave()">
+        <div class="card-glow"></div>
+        <div class="hud-corner-top-left"></div>
+        <div class="hud-corner-bottom-right"></div>
+        <div class="metric-val-wrap">
+          <span class="counter-val font-display" data-val="120" data-suffix="Hz">120Hz</span>
+        </div>
+        <h3 class="metric-title font-tech">DISPLAY</h3>
+        <p class="metric-desc">Micro-OLED retina clarity with adaptive gaze frame synchronization.</p>
+        <div class="metric-bar-track">
+          <div class="metric-bar-fill" style="width: 100%;"></div>
+        </div>
+      </div>
+
+      <!-- Metric 4: 1.4P AI Processing -->
+      <div class="metric-card glass-panel spec-reveal" (mouseenter)="onHover('TENSOR CORE')" (mouseleave)="onLeave()">
+        <div class="card-glow"></div>
+        <div class="hud-corner-top-left"></div>
+        <div class="hud-corner-bottom-right"></div>
+        <div class="metric-val-wrap">
+          <span class="counter-val font-display" data-val="1.4" data-suffix="P">1.4P</span>
+        </div>
+        <h3 class="metric-title font-tech">AI PROCESSING</h3>
+        <p class="metric-desc">128-core neuromorphic quantum tensor processing cluster.</p>
+        <div class="metric-bar-track">
+          <div class="metric-bar-fill" style="width: 95%;"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Category Deep-Dive Table & Interactive Workload Simulation -->
+    <div class="specs-deep-dive glass-panel-elevated spec-reveal">
+      
+      <!-- Category Tabs -->
+      <div class="category-tabs">
+        <button
+          *ngFor="let cat of categories"
+          class="cat-tab-btn"
+          [class.cat-tab-active]="activeCategoryId() === cat.id"
+          (click)="selectCategory(cat.id)"
+          (mouseenter)="onHover(cat.name)"
+          (mouseleave)="onLeave()">
+          <span class="cat-tab-dot"></span>
+          <span>{{ cat.name }}</span>
+        </button>
+      </div>
+
+      <!-- Active Category Details -->
+      <div class="category-content" *ngIf="getActiveCategory() as activeCat">
+        <div class="cat-meta-row">
+          <p class="cat-desc">{{ activeCat.description }}</p>
+          <span class="cat-badge font-mono">SPECIFICATION SUITE // ONLINE</span>
+        </div>
+
+        <div class="cat-metrics-table">
+          <div *ngFor="let m of activeCat.metrics" class="table-row">
+            <div class="row-left">
+              <span class="row-label font-tech">{{ m.label }}</span>
+              <span class="row-detail">{{ m.detail }}</span>
+            </div>
+            <div class="row-right">
+              <span class="row-val font-mono">{{ m.value }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Interactive Workload Simulator Slider -->
+      <div class="workload-simulator">
+        <div class="sim-header">
+          <span class="sim-title font-mono">LIVE QUANTUM WORKLOAD SIMULATION</span>
+          <span class="sim-readout font-mono">{{ currentLoad() }}% LOAD // {{ (currentLoad() * 0.014).toFixed(3) }} PFLOPS UTILIZED</span>
+        </div>
+        <div class="slider-wrapper">
+          <input
+            type="range"
+            min="10"
+            max="100"
+            [value]="currentLoad()"
+            (input)="onSliderChange($event)"
+            class="nexus-slider"
+            (mouseenter)="onHover('DRAG TO ADJUST')"
+            (mouseleave)="onLeave()">
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>

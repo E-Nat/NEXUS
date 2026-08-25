@@ -1,0 +1,103 @@
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  margin-left: -3px;
+  background: var(--accent-cyan);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  box-shadow: 0 0 10px var(--accent-cyan);
+  transition: opacity 0.3s ease, transform 0.05s linear, scale 0.3s ease;
+
+  &.cursor-hidden {
+    opacity: 0;
+  }
+
+  &.cursor-dot-hover {
+    transform: scale(0.5);
+    opacity: 0.5;
+  }
+}
+
+.cursor-follower {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  margin-top: -18px;
+  margin-left: -18px;
+  border: 1px solid rgba(0, 240, 255, 0.45);
+  background: rgba(0, 240, 255, 0.03);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+  transition: width 0.35s var(--ease-out-expo),
+              height 0.35s var(--ease-out-expo),
+              margin 0.35s var(--ease-out-expo),
+              border-color 0.3s ease,
+              background 0.3s ease,
+              opacity 0.3s ease;
+
+  &.cursor-hidden {
+    opacity: 0;
+  }
+
+  &.cursor-state-hover {
+    width: 54px;
+    height: 54px;
+    margin-top: -27px;
+    margin-left: -27px;
+    border-color: rgba(0, 240, 255, 0.8);
+    background: rgba(0, 240, 255, 0.08);
+    box-shadow: 0 0 25px rgba(0, 240, 255, 0.3);
+  }
+
+  &.cursor-state-badge {
+    width: auto;
+    min-width: 86px;
+    height: 38px;
+    padding: 0 16px;
+    margin-top: -19px;
+    margin-left: -43px;
+    border-radius: 999px;
+    background: rgba(0, 240, 255, 0.18);
+    border-color: var(--accent-cyan);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
+
+    .cursor-label {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .cursor-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: #ffffff;
+    text-transform: uppercase;
+    white-space: nowrap;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+}
+
+@media (max-width: 1024px) {
+  .cursor-dot, .cursor-follower {
+    display: none !important;
+  }
+}

@@ -1,0 +1,112 @@
+<header class="nexus-header" [class.header-scrolled]="isScrolled()">
+  <nav class="nav-container">
+    
+    <!-- Logo Brand -->
+    <a
+      href="#hero-section"
+      class="nav-brand"
+      (click)="$event.preventDefault(); navigateTo('#hero-section')"
+      (mouseenter)="onHoverLink('HOME')"
+      (mouseleave)="onLeaveLink()">
+      <div class="brand-glyph">
+        <svg viewBox="0 0 24 24" fill="none" class="glyph-svg">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+          <polygon points="12,5 18,17 6,17" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="12" cy="12" r="2.5" fill="var(--accent-cyan)"/>
+        </svg>
+      </div>
+      <div class="brand-titles">
+        <span class="brand-text">NEXUS</span>
+        <span class="brand-sub font-mono">/ E-NAT LABS</span>
+      </div>
+      <span class="brand-version">V1.0</span>
+    </a>
+
+    <!-- Desktop Navigation Links -->
+    <div class="nav-menu">
+      <ng-container *ngFor="let item of navItems">
+        <a
+          [href]="item.target"
+          class="nav-link"
+          [class.link-active]="activeSection() === item.label.toLowerCase()"
+          (click)="$event.preventDefault(); navigateTo(item.target)"
+          (mouseenter)="onHoverLink(item.label)"
+          (mouseleave)="onLeaveLink()">
+          <span class="link-label">{{ item.label }}</span>
+          <span class="link-dot"></span>
+        </a>
+      </ng-container>
+    </div>
+
+    <!-- Right Controls: Audio Synth & Pre-Order CTA -->
+    <div class="nav-actions">
+      
+      <!-- Audio Toggle Button -->
+      <button
+        class="sound-btn"
+        (click)="toggleSound()"
+        [title]="soundService.isMuted() ? 'Unmute Audio Experience' : 'Mute Audio'"
+        (mouseenter)="onHoverLink(soundService.isMuted() ? 'AUDIO OFF' : 'AUDIO ON')"
+        (mouseleave)="onLeaveLink()">
+        <span class="sound-label">{{ soundService.isMuted() ? 'AUDIO: OFF' : 'AUDIO: ON' }}</span>
+        <div class="sound-bars" [class.sound-playing]="!soundService.isMuted()">
+          <span class="bar bar-1"></span>
+          <span class="bar bar-2"></span>
+          <span class="bar bar-3"></span>
+          <span class="bar bar-4"></span>
+        </div>
+      </button>
+
+      <!-- Reserve CTA Button -->
+      <button
+        class="btn-nexus-primary nav-cta-btn"
+        (click)="onReserve()"
+        (mouseenter)="onHoverLink('RESERVE')"
+        (mouseleave)="onLeaveLink()">
+        <span>RESERVE</span>
+        <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 8h10M9 4l4 4-4 4"/>
+        </svg>
+      </button>
+
+      <!-- Mobile Hamburger Toggle -->
+      <button
+        class="mobile-menu-toggle"
+        (click)="toggleMobileMenu()"
+        [class.menu-open]="isMobileMenuOpen()"
+        aria-label="Toggle Navigation">
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+      </button>
+
+    </div>
+
+  </nav>
+
+  <!-- Mobile Dropdown Navigation Drawer -->
+  <div class="mobile-drawer" [class.drawer-open]="isMobileMenuOpen()">
+    <div class="drawer-content">
+      <div class="drawer-links">
+        <a
+          *ngFor="let item of navItems; let i = index"
+          [href]="item.target"
+          class="drawer-link"
+          [style.transition-delay]="(i * 60) + 'ms'"
+          [class.drawer-link-active]="activeSection() === item.label.toLowerCase()"
+          (click)="$event.preventDefault(); navigateTo(item.target)">
+          <span class="drawer-num">0{{ i + 1 }}</span>
+          <span class="drawer-text">{{ item.label }}</span>
+        </a>
+      </div>
+
+      <div class="drawer-footer">
+        <button class="btn-nexus-primary w-full" (click)="onReserve()">
+          <span>RESERVE NEXUS</span>
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 8h10M9 4l4 4-4 4"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>

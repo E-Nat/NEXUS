@@ -1,0 +1,42 @@
+<div #preloaderWrap class="preloader-container" [class.preloader-hidden]="isDone">
+  <div class="preloader-content">
+    
+    <!-- Pulse Ring & Telemetry Header -->
+    <div class="pre-telemetry">
+      <div class="pre-ring">
+        <div class="pre-spinner"></div>
+      </div>
+      <div class="pre-meta">
+        <span class="pre-system">SYSTEM BOOT // V1.0</span>
+        <span class="pre-status">{{ statusText }}</span>
+      </div>
+    </div>
+
+    <!-- NEXUS Logo Letter-by-Letter Reveal -->
+    <div class="pre-brand">
+      <div class="pre-letters">
+        <span class="pre-char">N</span>
+        <span class="pre-char">E</span>
+        <span class="pre-char">X</span>
+        <span class="pre-char">U</span>
+        <span class="pre-char">S</span>
+      </div>
+    </div>
+
+    <!-- Subtitle -->
+    <p class="pre-subtitle">BEYOND ORDINARY.</p>
+
+    <!-- Percentage Bar & Meter -->
+    <div class="pre-progress-box">
+      <div class="pre-bar-track">
+        <div class="pre-bar-fill" [style.width.%]="percent"></div>
+      </div>
+      <div class="pre-percent-readout font-mono">
+        {{ percent < 10 ? '0' + percent : percent }}%
+      </div>
+    </div>
+
+  </div>
+
+  <div class="preloader-grid"></div>
+</div>

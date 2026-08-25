@@ -1,0 +1,164 @@
+<section #gallerySection id="gallery-section" class="gallery-section">
+  
+  <!-- Header Bar -->
+  <div class="gallery-header-bar">
+    <div class="header-left">
+      <div class="section-label">
+        <span>04 // VISUAL ARCHIVE</span>
+      </div>
+      <h2 class="gallery-title">
+        <span class="text-gradient-silver">MATERIALITY</span> &amp; <span class="text-gradient-cyan">FORM.</span>
+      </h2>
+    </div>
+
+    <!-- Active item indicator -->
+    <div class="gallery-meta font-mono">
+      <span class="meta-num">0{{ activeIndex() + 1 }}</span>
+      <span class="meta-sep">/</span>
+      <span class="meta-total">0{{ items.length }}</span>
+      <span class="meta-instruction">[ SCROLL HORIZONTALLY ]</span>
+    </div>
+  </div>
+
+  <!-- Pinned Horizontal Scroll Track -->
+  <div class="gallery-viewport">
+    <div #trackRef class="gallery-track">
+      
+      <div
+        *ngFor="let item of items; let i = index"
+        class="gallery-card glass-panel"
+        [class.card-active]="activeIndex() === i"
+        (click)="openItem(item)"
+        (mouseenter)="onHover('VIEW // 0' + item.number)"
+        (mouseleave)="onLeave()">
+        
+        <!-- Card Visual Display with Procedural Shapes -->
+        <div class="card-visual-frame" [attr.data-visual]="item.visualType">
+          
+          <!-- Abstract Visual Rendering: Monolith, Microstructure, Retina, Quantum-Flow -->
+          <div class="procedural-art" [ngSwitch]="item.visualType">
+            
+            <!-- Type 1: Monolith Obsidian -->
+            <div *ngSwitchCase="'monolith'" class="art-monolith">
+              <div class="monolith-slab">
+                <div class="monolith-specular"></div>
+                <div class="monolith-laser-edge"></div>
+              </div>
+              <div class="monolith-reflection"></div>
+            </div>
+
+            <!-- Type 2: Microstructure Lattice -->
+            <div *ngSwitchCase="'microstructure'" class="art-microstructure">
+              <div class="prism-grid">
+                <div class="prism-cell" *ngFor="let p of [1,2,3,4,5,6,7,8,9,10,11,12]"></div>
+              </div>
+              <div class="lattice-glow"></div>
+            </div>
+
+            <!-- Type 3: Retina Fluidity -->
+            <div *ngSwitchCase="'retina'" class="art-retina">
+              <div class="retina-orbital-ring r1"></div>
+              <div class="retina-orbital-ring r2"></div>
+              <div class="retina-pupil-core"></div>
+            </div>
+
+            <!-- Type 4: Quantum Flow -->
+            <div *ngSwitchCase="'quantum-flow'" class="art-quantum">
+              <div class="quantum-wave-mesh"></div>
+              <div class="quantum-singularity"></div>
+            </div>
+
+          </div>
+
+          <!-- Card Top Overlay Meta -->
+          <div class="card-overlay-top">
+            <span class="card-num font-mono">{{ item.number }}</span>
+            <span class="card-cat font-mono">{{ item.category }}</span>
+          </div>
+
+          <!-- Card Hover Prompt -->
+          <div class="card-hover-prompt font-mono">
+            <span>INSPECT ARTIFACT</span>
+            <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 8h10M9 4l4 4-4 4"/>
+            </svg>
+          </div>
+
+        </div>
+
+        <!-- Card Footer Info -->
+        <div class="card-info">
+          <h3 class="card-title">{{ item.title }}</h3>
+          <p class="card-desc">{{ item.description }}</p>
+          <div class="card-tags">
+            <span *ngFor="let t of item.tags" class="card-tag font-mono">{{ t }}</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Lightbox Fullscreen Inspection Modal -->
+  <div class="gallery-modal-backdrop" *ngIf="selectedItem() as item" (click)="closeItem()">
+    <div class="gallery-modal glass-panel-elevated" (click)="$event.stopPropagation()">
+      
+      <div class="g-modal-header">
+        <div class="g-modal-meta">
+          <span class="nexus-badge">
+            <span class="badge-dot"></span>
+            <span>ARTIFACT ARCHIVE // {{ item.number }}</span>
+          </span>
+          <span class="g-modal-cat font-mono">{{ item.category }}</span>
+        </div>
+        <button class="modal-close-btn" (click)="closeItem()" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="g-modal-body">
+        <div class="g-modal-left">
+          <h3 class="g-modal-title">{{ item.title }}</h3>
+          <span class="g-modal-sub font-mono">{{ item.subtitle }}</span>
+          <p class="g-modal-story">{{ item.fullStory }}</p>
+
+          <div class="g-modal-specs">
+            <div *ngFor="let s of item.specs" class="g-spec-row">
+              <span class="g-spec-lbl font-mono">{{ s.label }}</span>
+              <span class="g-spec-val font-mono">{{ s.value }}</span>
+            </div>
+            <div class="g-spec-row">
+              <span class="g-spec-lbl font-mono">MATERIALS</span>
+              <span class="g-spec-val font-mono">{{ item.material }}</span>
+            </div>
+            <div class="g-spec-row">
+              <span class="g-spec-lbl font-mono">DIMENSIONS</span>
+              <span class="g-spec-val font-mono">{{ item.dimensions }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="g-modal-right">
+          <!-- Large Detailed Visual Representation -->
+          <div class="g-preview-box" [attr.data-visual]="item.visualType">
+            <div class="g-hologram-glow"></div>
+            <div class="g-reticle-center"></div>
+            <span class="g-telemetry-tag font-mono">CALIBRATION: 100% // SCAN CERTIFIED</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="g-modal-footer">
+        <button class="btn-nexus-primary" (click)="closeItem()">
+          <span>RETURN TO ARCHIVE</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</section>

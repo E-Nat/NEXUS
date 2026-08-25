@@ -1,0 +1,94 @@
+<section id="hero-section" class="hero-section">
+  
+  <div class="hero-container">
+    
+    <!-- Top Telemetry & Badge -->
+    <div class="hero-header-meta">
+      <div class="nexus-badge hero-badge">
+        <span class="badge-dot"></span>
+        <span>QUANTUM NEURAL INTERFACE</span>
+      </div>
+
+      <div class="hero-telemetry-tag font-mono">
+        <span>STATUS: ACTIVE</span>
+        <span class="telemetry-sep">//</span>
+        <span>FREQ: 4.8 THz</span>
+      </div>
+    </div>
+
+    <!-- Main Editorial Headline (Word-by-word reveal) -->
+    <div class="hero-title-wrap">
+      <h1 #heroTitle class="hero-headline">
+        <span class="hero-word-wrap"><span class="hero-word text-gradient-silver">BEYOND</span></span>
+        <span class="hero-word-wrap"><span class="hero-word text-gradient-cyan">ORDINARY.</span></span>
+      </h1>
+    </div>
+
+    <!-- Supporting Text -->
+    <p class="hero-description">
+      An intelligent experience designed for what comes next. Seamlessly merging neural processing, holographic fidelity, and quantum connectivity into a single monolithic form.
+    </p>
+
+    <!-- CTAs Row -->
+    <div class="hero-actions-row">
+      
+      <!-- Primary Magnetic CTA -->
+      <button
+        #heroCta
+        class="btn-nexus-primary"
+        (click)="onExplore()"
+        (mouseenter)="onHoverBtn('EXPLORE')"
+        (mouseleave)="onLeaveBtn()">
+        <span>EXPLORE NEXUS</span>
+        <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 8h10M9 4l4 4-4 4"/>
+        </svg>
+      </button>
+
+      <!-- Secondary Glass Action -->
+      <button
+        class="btn-nexus-glass"
+        (click)="onWatchFilm()"
+        (mouseenter)="onHoverBtn('WATCH FILM')"
+        (mouseleave)="onLeaveBtn()">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+          <polygon points="6,4 20,12 6,20"/>
+        </svg>
+        <span>EXPERIENCE FILM</span>
+      </button>
+
+    </div>
+
+    <!-- Bottom Telemetry Specs -->
+    <div class="hero-footer-telemetry">
+      <div class="telemetry-col">
+        <span class="col-val font-mono">1.4 PF</span>
+        <span class="col-label">NEURAL ENGINE</span>
+      </div>
+      <div class="telemetry-divider"></div>
+      <div class="telemetry-col">
+        <span class="col-val font-mono">0.02ms</span>
+        <span class="col-label">LATENCY</span>
+      </div>
+      <div class="telemetry-divider"></div>
+      <div class="telemetry-col">
+        <span class="col-val font-mono">8K</span>
+        <span class="col-label">PHOTONIC FOV</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scroll Down Mouse Prompt -->
+  <div
+    class="hero-scroll-indicator"
+    (click)="scrollToProduct()"
+    (mouseenter)="onHoverBtn('SCROLL')"
+    (mouseleave)="onLeaveBtn()">
+    <div class="mouse-icon">
+      <div class="mouse-wheel"></div>
+    </div>
+    <span class="scroll-text font-mono">SCROLL TO REVEAL</span>
+  </div>
+
+</section>

@@ -1,0 +1,60 @@
+<div
+  class="product-label-node"
+  [class.node-active]="active"
+  [class.node-mobile]="isMobile"
+  [style.left.%]="isMobile ? detail.mobilePosition.x : detail.desktopPosition.x"
+  [style.top.%]="isMobile ? detail.mobilePosition.y : detail.desktopPosition.y"
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()"
+  (click)="onClick()">
+
+  <!-- Visual Anchor Beacon & Radial Ping -->
+  <div class="beacon-anchor">
+    <div class="beacon-core"></div>
+    <div class="beacon-ring"></div>
+    <div class="beacon-ping"></div>
+  </div>
+
+  <!-- Connecting Leader Line -->
+  <div class="leader-line-wrap" [class.leader-left]="(isMobile ? detail.mobilePosition.x : detail.desktopPosition.x) > 50">
+    <svg class="leader-line-svg" viewBox="0 0 45 20" fill="none">
+      <path
+        d="M 0,10 L 40,10"
+        stroke="rgba(0, 240, 255, 0.5)"
+        stroke-width="1"
+        stroke-dasharray="2 2" />
+      <circle cx="40" cy="10" r="2" fill="#00f0ff" />
+    </svg>
+  </div>
+
+  <!-- Floating Technical Data Card -->
+  <div class="label-card glass-panel" [class.align-right]="(isMobile ? detail.mobilePosition.x : detail.desktopPosition.x) > 50">
+    <div class="card-glow"></div>
+    
+    <!-- Top Telemetry Header -->
+    <div class="label-meta-row">
+      <span class="label-tag font-mono">{{ detail.label }}</span>
+      <span class="label-status-dot"></span>
+    </div>
+
+    <!-- Title & Subtitle -->
+    <div class="label-main">
+      <h4 class="label-title">{{ detail.title }}</h4>
+      <span class="label-subtitle font-mono">{{ detail.subtitle }}</span>
+    </div>
+
+    <!-- Micro Description -->
+    <p class="label-desc">{{ detail.description }}</p>
+
+    <!-- Bottom Specs Pill -->
+    <div class="label-specs font-mono">
+      <span class="specs-bullet">›</span>
+      <span class="specs-text">{{ detail.specs }}</span>
+    </div>
+
+    <!-- Corner HUD Accents -->
+    <div class="hud-corner-tl"></div>
+    <div class="hud-corner-br"></div>
+  </div>
+
+</div>

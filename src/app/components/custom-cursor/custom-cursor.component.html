@@ -1,0 +1,21 @@
+<ng-container *ngIf="!cursorService.isTouchDevice()">
+  <!-- Central Precise Dot -->
+  <div
+    #cursorDot
+    class="cursor-dot"
+    [class.cursor-hidden]="!cursorService.isVisible()"
+    [class.cursor-dot-hover]="cursorService.cursorState() !== 'default'">
+  </div>
+
+  <!-- Lagging Glass Follower Circle / Pill -->
+  <div
+    #cursorFollower
+    class="cursor-follower"
+    [class.cursor-hidden]="!cursorService.isVisible()"
+    [class.cursor-state-hover]="cursorService.cursorState() === 'hover'"
+    [class.cursor-state-badge]="cursorService.cursorState() === 'explore' || cursorService.cursorState() === 'open' || cursorService.cursorState() === 'drag' || cursorService.cursorState() === 'view'">
+    <span class="cursor-label" *ngIf="cursorService.cursorText()">
+      {{ cursorService.cursorText() }}
+    </span>
+  </div>
+</ng-container>

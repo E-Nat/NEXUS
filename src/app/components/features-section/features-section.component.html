@@ -1,0 +1,127 @@
+<section #featuresWrap id="features-section" class="features-section">
+  
+  <div class="features-container">
+    
+    <!-- Section Label -->
+    <div class="features-header">
+      <div class="section-label">
+        <span>02 // CAPABILITIES</span>
+      </div>
+      <h2 class="features-headline">
+        <span class="text-gradient-silver">ENGINEERED FOR</span><br>
+        <span class="text-gradient-plasma">ABSOLUTE SUPREMACY.</span>
+      </h2>
+    </div>
+
+    <!-- Editorial Interactive Features Rows -->
+    <div class="features-list">
+      
+      <div
+        *ngFor="let feat of features; let i = index"
+        class="feature-row"
+        [class.feature-active]="activeFeatureIndex() === i"
+        [attr.data-theme]="feat.visualTheme"
+        (mouseenter)="onFeatureHover(i, feat, $event)"
+        (mousemove)="onFeatureMouseMove($event)"
+        (mouseleave)="onFeatureLeave()"
+        (click)="openFeatureDetails(feat)">
+        
+        <!-- Localized Mouse Glow Overlay -->
+        <div class="row-glow"></div>
+
+        <!-- Left: Index Number & Title -->
+        <div class="feature-left">
+          <span class="feature-number font-mono">{{ feat.number }}</span>
+          <div class="feature-title-block">
+            <h3 class="feature-title">{{ feat.title }}</h3>
+            <span class="feature-subtitle font-mono">{{ feat.subtitle }}</span>
+          </div>
+        </div>
+
+        <!-- Middle: Description & Highlights -->
+        <div class="feature-mid">
+          <p class="feature-desc">{{ feat.description }}</p>
+          <div class="feature-tags-list">
+            <span *ngFor="let h of feat.highlights" class="feat-pill">
+              {{ h }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Right: Interactive Metrics & Expanding Action Arrow -->
+        <div class="feature-right">
+          <div class="feature-metrics-box">
+            <div *ngFor="let m of feat.metrics" class="feat-metric">
+              <span class="m-val font-mono">{{ m.value }}</span>
+              <span class="m-lbl font-mono">{{ m.label }}</span>
+            </div>
+          </div>
+
+          <div class="feature-arrow-btn">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="7" y1="17" x2="17" y2="7"/>
+              <polyline points="7 7 17 7 17 17"/>
+            </svg>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- In-Depth Feature Architecture Modal -->
+  <div class="feature-modal-backdrop" *ngIf="selectedFeatureModal() as modalFeat" (click)="closeModal()">
+    <div class="feature-modal glass-panel-elevated" (click)="$event.stopPropagation()">
+      
+      <div class="modal-header">
+        <div class="modal-badge-group">
+          <span class="nexus-badge">
+            <span class="badge-dot"></span>
+            <span>CAPABILITY // {{ modalFeat.number }}</span>
+          </span>
+        </div>
+        <button class="modal-close-btn" (click)="closeModal()" aria-label="Close modal">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <h3 class="modal-title">{{ modalFeat.title }}</h3>
+        <p class="modal-tagline">{{ modalFeat.tagline }}</p>
+        <p class="modal-full-desc">{{ modalFeat.description }}</p>
+
+        <div class="modal-specs-grid">
+          <div class="modal-spec-card">
+            <span class="spec-card-lbl font-mono">ARCHITECTURE</span>
+            <p class="spec-card-val">{{ modalFeat.details.architecture }}</p>
+          </div>
+          <div class="modal-spec-card">
+            <span class="spec-card-lbl font-mono">TECHNOLOGY</span>
+            <p class="spec-card-val">{{ modalFeat.details.technology }}</p>
+          </div>
+          <div class="modal-spec-card">
+            <span class="spec-card-lbl font-mono">SYSTEM IMPACT</span>
+            <p class="spec-card-val">{{ modalFeat.details.impact }}</p>
+          </div>
+          <div class="modal-spec-card">
+            <span class="spec-card-lbl font-mono">OPTICAL BUS</span>
+            <p class="spec-card-val">{{ modalFeat.details.bandwidth }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-nexus-primary" (click)="closeModal()">
+          <span>DISMISS SPECIFICATION</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</section>

@@ -1,0 +1,64 @@
+<div class="film-backdrop" (click)="onClose()">
+  <div class="film-player-modal glass-panel-elevated" (click)="$event.stopPropagation()">
+    
+    <!-- Player Top Bar -->
+    <div class="player-top-bar">
+      <div class="player-meta">
+        <span class="nexus-badge">
+          <span class="badge-dot"></span>
+          <span>NEXUS CINEMA // 8K HDR 120FPS</span>
+        </span>
+        <span class="act-name font-mono">{{ currentAct() }}</span>
+      </div>
+
+      <button class="modal-close-btn" (click)="onClose()" aria-label="Close Film">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Cinematic Viewport & Holographic Render Screen -->
+    <div class="film-screen">
+      
+      <!-- Video / Interactive Shader Canvas Simulation -->
+      <div class="film-vfx-canvas" [class.vfx-paused]="!isPlaying()">
+        <div class="vfx-laser-ring v1"></div>
+        <div class="vfx-laser-ring v2"></div>
+        <div class="vfx-laser-ring v3"></div>
+        <div class="vfx-quantum-core"></div>
+        <div class="vfx-audio-waveform">
+          <span class="wave-bar" *ngFor="let b of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]"></span>
+        </div>
+      </div>
+
+      <!-- HUD Screen Reticle -->
+      <div class="screen-reticle">
+        <div class="reticle-box"></div>
+        <span class="timecode font-mono">00:{{ currentTime() < 10 ? '0' + currentTime() : currentTime() }} // 00:30</span>
+      </div>
+
+    </div>
+
+    <!-- Player Bottom Controls -->
+    <div class="player-controls">
+      <button class="play-btn" (click)="togglePlay()">
+        <svg *ngIf="!isPlaying()" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+        </svg>
+        <svg *ngIf="isPlaying()" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+          <rect x="6" y="4" width="4" height="16"></rect>
+          <rect x="14" y="4" width="4" height="16"></rect>
+        </svg>
+      </button>
+
+      <div class="film-timeline">
+        <div class="timeline-fill" [style.width.%]="(currentTime() / 30) * 100"></div>
+      </div>
+
+      <span class="spatial-tag font-mono">SPATIAL AUDIO: ATMOS 7.1</span>
+    </div>
+
+  </div>
+</div>

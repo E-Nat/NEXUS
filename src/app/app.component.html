@@ -1,0 +1,55 @@
+<!-- Film Grain Noise Overlay -->
+<div class="grain-overlay"></div>
+
+<!-- Ambient Radial Glows -->
+<div class="ambient-glow-container">
+  <div class="ambient-glow-top"></div>
+  <div class="ambient-glow-bottom"></div>
+</div>
+
+<!-- Custom Desktop Cursor -->
+<app-custom-cursor></app-custom-cursor>
+
+<!-- Cinematic Preloader Sequence -->
+<app-preloader (complete)="onPreloaderComplete()"></app-preloader>
+
+<!-- 3D Three.js Visual Scene (Interactive Background Canvas) -->
+<app-three-scene #threeScene></app-three-scene>
+
+<!-- Luxury Navigation Header -->
+<app-navbar (reserveClick)="onOpenReserveModal()"></app-navbar>
+
+<!-- Main Continuous Scroll Storyboard Experience -->
+<main class="nexus-main-content">
+  
+  <!-- 1. Hero Section -->
+  <app-hero-section
+    #heroSection
+    (exploreClick)="onExplore()"
+    (filmClick)="onOpenFilmModal()">
+  </app-hero-section>
+
+  <!-- 2. Product Reveal Section — The Next Experience -->
+  <app-product-reveal></app-product-reveal>
+
+  <!-- 3. Capabilities & Features Section -->
+  <app-features-section
+    (themeChange)="onFeatureThemeChange($event)">
+  </app-features-section>
+
+  <!-- 4. Specifications & Architecture Section -->
+  <app-specs-section></app-specs-section>
+
+  <!-- 5. Interactive Materiality & Form Gallery Section -->
+  <app-gallery-section></app-gallery-section>
+
+  <!-- 6. Final Dramatic CTA & Footer Section -->
+  <app-final-cta-section #finalCta></app-final-cta-section>
+
+</main>
+
+<!-- Interactive Film Visualizer Modal -->
+<app-film-modal
+  *ngIf="isFilmModalOpen()"
+  (close)="onCloseFilmModal()">
+</app-film-modal>
