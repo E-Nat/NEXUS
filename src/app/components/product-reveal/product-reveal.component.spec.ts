@@ -40,6 +40,11 @@ describe('ProductRevealComponent - Scroll-driven card animation sequencing', () 
     expect(card03).toBeDefined();
     expect(card04).toBeDefined();
 
+    expect(card01!.order).toBe(1);
+    expect(card02!.order).toBe(2);
+    expect(card03!.order).toBe(3);
+    expect(card04!.order).toBe(4);
+
     expect(card01!.activeInFrames).toEqual([1, 2, 3, 4]);
     expect(card02!.activeInFrames).toEqual([2, 3, 4]);
     expect(card03!.activeInFrames).toEqual([3, 4]);

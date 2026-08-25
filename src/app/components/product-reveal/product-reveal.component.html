@@ -20,7 +20,7 @@
     <!-- Floating Technical Labels Layer -->
     <div class="reveal-labels-overlay">
       <app-product-label
-        *ngFor="let label of labels"
+        *ngFor="let label of labels; trackBy: trackByLabelId"
         [detail]="label"
         [active]="isLabelActive(label)"
         [isMobile]="isMobile"

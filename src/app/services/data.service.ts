@@ -393,6 +393,7 @@ export class DataService {
   readonly productRevealLabels: ProductDetail[] = [
     {
       id: 'core',
+      order: 1,
       label: '01 / CORE',
       title: 'QUANTUM SYNAPSE',
       subtitle: '1.4 PFLOPS NEURAL CLUSTER',
@@ -405,6 +406,7 @@ export class DataService {
     },
     {
       id: 'system',
+      order: 2,
       label: '02 / SYSTEM',
       title: 'TITANIUM GIMBAL',
       subtitle: 'AEROSPACE GRADE-5 CHASSIS',
@@ -417,6 +419,7 @@ export class DataService {
     },
     {
       id: 'interface',
+      order: 3,
       label: '03 / INTERFACE',
       title: 'PHOTONIC WAVEFRONT',
       subtitle: 'DIRECT RETINAL EMISSION',
@@ -429,6 +432,7 @@ export class DataService {
     },
     {
       id: 'material',
+      order: 4,
       label: '04 / MATERIAL',
       title: 'OBSIDIAN LATTICE',
       subtitle: 'VAPOR-DEPOSITED SAPPHIRE',

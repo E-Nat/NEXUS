@@ -173,9 +173,21 @@ export class ProductRevealComponent implements OnInit, AfterViewInit, OnDestroy 
     }
   }
 
+  /**
+   * Deterministic sequential phase-to-card reveal:
+   * Card 01 -> revealed when phase >= 1
+   * Card 02 -> revealed when phase >= 2
+   * Card 03 -> revealed when phase >= 3
+   * Card 04 -> revealed when phase >= 4
+   */
   public isLabelActive(label: ProductDetail): boolean {
-    const currentFrame = this.activeFrameIndex();
-    return label.activeInFrames.includes(currentFrame);
+    const currentPhase = this.activeFrameIndex();
+    const requiredPhase = label.order ?? 1;
+    return currentPhase >= requiredPhase;
+  }
+
+  public trackByLabelId(index: number, item: ProductDetail): string {
+    return item.id;
   }
 
   public setMode(mode: 'monolith' | 'exploded' | 'quantum'): void {

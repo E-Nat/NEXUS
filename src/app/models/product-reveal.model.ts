@@ -1,5 +1,6 @@
 export interface ProductDetail {
   id: string;
+  order: number; // 1, 2, 3, 4
   label: string;
   title: string;
   subtitle: string;
@@ -8,7 +9,7 @@ export interface ProductDetail {
   desktopPosition: { x: number; y: number }; // Percentage (0 - 100)
   mobilePosition: { x: number; y: number };
   anchor3D: { x: number; y: number; z: number };
-  activeInFrames: number[]; // e.g. [2, 3] or [4]
+  activeInFrames: number[]; // e.g. [1, 2, 3, 4]
 }
 
 export interface ProductRevealFrame {
