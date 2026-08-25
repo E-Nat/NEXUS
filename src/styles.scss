@@ -384,6 +384,17 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* Scroll Offset Anchor Alignment */
+section[id],
+.hero-section,
+.product-reveal-section,
+.features-section,
+.specs-section,
+.gallery-section,
+.final-cta-section {
+  scroll-margin-top: 76px;
+}
+
 /* ==========================================================================
    SCROLLBAR
    ========================================================================== */

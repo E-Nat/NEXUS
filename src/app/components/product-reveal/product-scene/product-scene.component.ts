@@ -99,9 +99,9 @@ export class ProductSceneComponent implements OnInit, OnDestroy {
     const p = this.currentScrollProgress;
     const baseScaleMultiplier = this.isMobileDevice ? 0.72 : 1.0;
 
-    // 1. Entrance Phase (0.00 -> 0.25): Product enters from below, scales up, fades in
-    if (p <= 0.25) {
-      const enterNorm = p / 0.25; // 0 to 1
+    // 1. Entrance Phase (0.00 -> 0.22): Product enters from below, scales up, fades in
+    if (p <= 0.22) {
+      const enterNorm = p / 0.22; // 0 to 1
       const easeEnter = Math.sin((enterNorm * Math.PI) / 2);
 
       this.masterGroup.position.y = (-2.8 + easeEnter * 2.8) * (this.isMobileDevice ? 0.75 : 1.0);
@@ -120,9 +120,9 @@ export class ProductSceneComponent implements OnInit, OnDestroy {
       this.waveguideRing2.position.set(0, 0, 0);
       this.shieldRing3.position.set(0, 0, 0);
     }
-    // 2. Frame 02 - "DESIGNED TO MOVE" (0.25 -> 0.50): Product rotates, rings articulate
-    else if (p <= 0.50) {
-      const norm = (p - 0.25) / 0.25; // 0 to 1
+    // 2. Frame 02 - "DESIGNED TO MOVE" (0.22 -> 0.48): Product rotates, rings articulate
+    else if (p <= 0.48) {
+      const norm = (p - 0.22) / 0.26; // 0 to 1
       const ease = 0.5 - Math.cos(norm * Math.PI) / 2;
 
       this.masterGroup.position.y = 0;
@@ -141,9 +141,9 @@ export class ProductSceneComponent implements OnInit, OnDestroy {
 
       this.setMasterOpacity(1);
     }
-    // 3. Frame 03 - "DESIGNED TO ADAPT" (0.50 -> 0.75): Spatial rotation & counter-spin
-    else if (p <= 0.75) {
-      const norm = (p - 0.50) / 0.25; // 0 to 1
+    // 3. Frame 03 - "DESIGNED TO ADAPT" (0.48 -> 0.72): Spatial rotation & counter-spin
+    else if (p <= 0.72) {
+      const norm = (p - 0.48) / 0.24; // 0 to 1
       const ease = 0.5 - Math.cos(norm * Math.PI) / 2;
 
       this.masterGroup.position.y = Math.sin(norm * Math.PI) * 0.15;
@@ -161,9 +161,9 @@ export class ProductSceneComponent implements OnInit, OnDestroy {
 
       this.setMasterOpacity(1);
     }
-    // 4. Frame 04 - "THE NEXT EXPERIENCE" (0.75 -> 0.92): Symmetrical hero alignment
-    else if (p <= 0.92) {
-      const norm = (p - 0.75) / 0.17; // 0 to 1
+    // 4. Frame 04 - "THE NEXT EXPERIENCE" (0.72 -> 0.94): Symmetrical hero alignment
+    else if (p <= 0.94) {
+      const norm = (p - 0.72) / 0.22; // 0 to 1
       const ease = 0.5 - Math.cos(norm * Math.PI) / 2;
 
       this.masterGroup.position.y = 0;
@@ -180,9 +180,9 @@ export class ProductSceneComponent implements OnInit, OnDestroy {
 
       this.setMasterOpacity(1);
     }
-    // 5. Exit Transition to Features (0.92 -> 1.00): Recedes smoothly into distance
+    // 5. Exit Transition to Features (0.94 -> 1.00): Recedes smoothly into distance
     else {
-      const norm = (p - 0.92) / 0.08; // 0 to 1
+      const norm = (p - 0.94) / 0.06; // 0 to 1
       const ease = norm * norm; // accelerate away
 
       this.masterGroup.position.z = -ease * 5.5;

@@ -115,10 +115,10 @@ export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
       '-=0.7'
     );
 
-    // 4. CTAs & scroll indicator
-    tl.fromTo('.hero-actions-row, .hero-scroll-indicator',
+    // 4. CTAs
+    tl.fromTo('.hero-actions-row',
       { y: 25, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: 'power3.out' },
+      { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' },
       '-=0.5'
     );
   }
@@ -141,10 +141,5 @@ export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public onLeaveBtn(): void {
     this.cursorService.resetCursor();
-  }
-
-  public scrollToProduct(): void {
-    this.soundService.playClick();
-    this.scrollService.scrollTo('#product-reveal-section');
   }
 }

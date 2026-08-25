@@ -112,43 +112,56 @@ export class ProductRevealComponent implements OnInit, AfterViewInit, OnDestroy 
       end: () => (this.isMobile ? '+=2600' : '+=3800'), // Ample scroll distance for leisurely cinematic pacing
       pin: true,
       pinSpacing: true,
-      scrub: 1.0, // Smooth, natural mouse-wheel response
+      scrub: 0.8, // Smooth, natural mouse-wheel response
       anticipatePin: 1,
       invalidateOnRefresh: true,
       onUpdate: (self) => {
-        const p = self.progress;
+        const p = Math.max(0, Math.min(1, self.progress));
         this.scrollProgressPercent.set(Math.round(p * 100));
 
-        // Update 3D Scene pose
+        // Update 3D Scene pose with continuous progress
         this.productSceneComponent?.updateScrollProgress(p);
 
         // Update Background Parallax Elements
         this.updateParallax(p);
 
         // Exit transition trigger
-        if (p >= 0.92) {
+        if (p >= 0.94) {
           this.isExiting.set(true);
         } else {
           this.isExiting.set(false);
         }
 
-        // Frame State Machine:
-        // 0.00 - 0.25 -> Phase 01: Reveal
-        // 0.25 - 0.50 -> Phase 02: Explore ("DESIGNED TO MOVE")
-        // 0.50 - 0.75 -> Phase 03: Adapt ("DESIGNED TO ADAPT")
-        // 0.75 - 1.00 -> Phase 04: Horizon ("THE NEXT EXPERIENCE")
+        // Seamless Phase Ranges:
+        // 0.00 - 0.22 -> Phase 1: Genesis (NEXUS ARISES / Card 01)
+        // 0.22 - 0.48 -> Phase 2: Kinematics (DESIGNED TO MOVE / Card 02)
+        // 0.48 - 0.72 -> Phase 3: Adaptive Cognition (DESIGNED TO ADAPT / Card 03)
+        // 0.72 - 1.00 -> Phase 4: The Horizon (THE NEXT EXPERIENCE / Card 04)
         let targetFrame = 1;
-        if (p >= 0.75) {
+        if (p >= 0.72) {
           targetFrame = 4;
-        } else if (p >= 0.50) {
+        } else if (p >= 0.48) {
           targetFrame = 3;
-        } else if (p >= 0.25) {
+        } else if (p >= 0.22) {
           targetFrame = 2;
         }
 
         this.setPhase(targetFrame);
       }
     });
+
+    // Immediate progress evaluation on initialization (supports page reload midway down the page)
+    if (this.scrollTriggerInstance) {
+      const initialP = Math.max(0, Math.min(1, this.scrollTriggerInstance.progress));
+      this.scrollProgressPercent.set(Math.round(initialP * 100));
+      this.productSceneComponent?.updateScrollProgress(initialP);
+      this.updateParallax(initialP);
+      let initialFrame = 1;
+      if (initialP >= 0.72) initialFrame = 4;
+      else if (initialP >= 0.48) initialFrame = 3;
+      else if (initialP >= 0.22) initialFrame = 2;
+      this.currentPhase.set(initialFrame);
+    }
   }
 
   /**
@@ -197,27 +210,22 @@ export class ProductRevealComponent implements OnInit, AfterViewInit, OnDestroy 
 
   /**
    * Deterministic mapping from currentPhase:
-   * currentPhase = 1 -> Card 01 active, others hidden
-   * currentPhase = 2 -> Card 01 completed, Card 02 active, others hidden
-   * currentPhase = 3 -> Card 01/02 completed, Card 03 active, Card 04 hidden
-   * currentPhase = 4 -> Card 01/02/03 completed, Card 04 active
+   * State 1: currentPhase = 1 -> Card 01 active, others hidden
+   * State 2: currentPhase = 2 -> Card 02 active, others hidden
+   * State 3: currentPhase = 3 -> Card 03 active, others hidden
+   * State 4: currentPhase = 4 -> Card 04 active, others hidden
    */
   public getCardStatus(label: ProductDetail): CardStatus {
     const phase = this.currentPhase();
     const cardPhase = label.phase ?? label.order ?? 1;
 
-    if (phase < cardPhase) {
-      return 'hidden';
-    } else if (phase === cardPhase) {
-      return 'active';
-    } else {
-      return 'completed';
-    }
+    return phase === cardPhase ? 'active' : 'hidden';
   }
 
   public isLabelActive(label: ProductDetail): boolean {
-    const status = this.getCardStatus(label);
-    return status === 'active' || status === 'completed';
+    const phase = this.currentPhase();
+    const cardPhase = label.phase ?? label.order ?? 1;
+    return phase === cardPhase;
   }
 
   public trackByLabelId(index: number, item: ProductDetail): string {

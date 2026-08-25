@@ -25,7 +25,7 @@ export class ProductLabelComponent {
   ) {}
 
   public get isVisible(): boolean {
-    return this.status === 'active' || this.status === 'completed' || this.active;
+    return this.status === 'active' || this.active;
   }
 
   public onMouseEnter(): void {

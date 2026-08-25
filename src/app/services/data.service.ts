@@ -250,13 +250,13 @@ export class DataService {
 
   readonly galleryItems: GalleryItem[] = [
     {
-      id: 'form',
+      id: 'unibody',
       number: '01',
-      title: 'NEXUS FORM',
-      subtitle: 'THE MONOLITHIC OBSIDIAN CHASSIS',
+      title: 'NEXUS UNIBODY',
+      subtitle: 'VAPOR-FORMED TITANIUM CHASSIS',
       category: 'INDUSTRIAL DESIGN',
-      description: 'Machined from a single block of aerospace-grade titanium and vapor-deposited obsidian glass.',
-      fullStory: 'Every contour of NEXUS is sculpted with mathematical precision. The seamless unibody structure incorporates microscopic ventilation channels and magnetic contact points that remain invisible until activated.',
+      description: 'Vapor-formed titanium chassis / ultra-light aerospace construction.',
+      fullStory: 'Every contour of the NEXUS UNIBODY is sculpted with mathematical precision. The seamless unibody structure incorporates microscopic ventilation channels and magnetic contact points that remain invisible until activated.',
       accentColor: '#00f0ff',
       tags: ['AEROSPACE TITANIUM', 'OBSIDIAN GLASS', '0.4MM BEZEL'],
       dimensions: '142.4 × 69.8 × 7.1 mm',
@@ -269,12 +269,12 @@ export class DataService {
       visualType: 'monolith'
     },
     {
-      id: 'detail',
+      id: 'lattice',
       number: '02',
-      title: 'NEXUS DETAIL',
+      title: 'QUANTUM LATTICE',
       subtitle: 'OPTICAL NANOSTRUCTURE & LATTICE',
       category: 'MICROSCOPIC ENGINEERING',
-      description: 'Nanometer-level diffraction gratings that manipulate light paths with sub-atomic precision.',
+      description: 'Sub-nanometer material architecture.',
       fullStory: 'Beneath the exterior sapphire glass lies a multi-layer optical diffraction lattice. Over 40 million microscopic prisms redirect photons directly toward the focal plane, eliminating chromatic aberration entirely.',
       accentColor: '#8b5cf6',
       tags: ['DIFFRACTION LATTICE', 'SAPPHIRE OPTICS', 'PHOTONIC BUS'],
@@ -293,7 +293,7 @@ export class DataService {
       title: 'NEXUS EXPERIENCE',
       subtitle: 'SPATIAL FLUIDITY & INTERACTION',
       category: 'HUMAN INTERACTION',
-      description: 'An interface that ceases to exist as a barrier, flowing seamlessly with cognitive thought.',
+      description: 'Interface responding to human intent.',
       fullStory: 'Experience digital reality without windows, menus, or tactile lag. NEXUS translates micro-movements, pupil dilation, and spatial gestures into instantaneous environmental transformations.',
       accentColor: '#ec4899',
       tags: ['NEURAL INTENT', 'GESTURE MATRIX', 'HAPTIC RESONANCE'],
@@ -305,25 +305,6 @@ export class DataService {
         { label: 'Context Engine', value: 'Continuous Predictive' }
       ],
       visualType: 'retina'
-    },
-    {
-      id: 'future',
-      number: '04',
-      title: 'NEXUS FUTURE',
-      subtitle: 'AUTONOMOUS ADAPTIVE EVOLUTION',
-      category: 'NEXT HORIZON',
-      description: 'A platform engineered to expand its capabilities through autonomous firmware maturation.',
-      fullStory: 'NEXUS is designed not as a static consumer product, but as an evolving quantum terminal. As collective intelligence models progress, the localized tensor hardware continuously reconfigures its synaptic pathways.',
-      accentColor: '#10b981',
-      tags: ['CONTINUOUS EVOLUTION', 'QUANTUM SYNAPSE', 'FUTURE-PROOF'],
-      dimensions: 'Multi-Generation Architecture',
-      material: 'Reconfigurable Quantum FPGA Fabric',
-      specs: [
-        { label: 'Architecture Life', value: '10+ Years' },
-        { label: 'Synaptic Nodes', value: '1.2 Billion' },
-        { label: 'Security Enclave', value: 'Post-Quantum LWE' }
-      ],
-      visualType: 'quantum-flow'
     }
   ];
 
@@ -400,8 +381,8 @@ export class DataService {
       subtitle: '1.4 PFLOPS NEURAL CLUSTER',
       description: 'Sub-nanometer tensor matrix operating at zero thermal resistance with real-time autonomous neural plasticity.',
       specs: '128-Core Synaptic / 4.8 THz',
-      desktopPosition: { x: 20, y: 34 },
-      mobilePosition: { x: 50, y: 20 },
+      desktopPosition: { x: 12, y: 22 },
+      mobilePosition: { x: 50, y: 84 },
       anchor3D: { x: 0, y: 0.1, z: 0 },
       activeInFrames: [1, 2, 3, 4]
     },
@@ -414,8 +395,8 @@ export class DataService {
       subtitle: 'AEROSPACE GRADE-5 CHASSIS',
       description: 'Gyroscopically balanced orbital ring mechanism machined with 0.1-micron aerospace precision.',
       specs: 'Tri-Axial Kinetic / IP69K',
-      desktopPosition: { x: 80, y: 32 },
-      mobilePosition: { x: 50, y: 78 },
+      desktopPosition: { x: 86, y: 22 },
+      mobilePosition: { x: 50, y: 84 },
       anchor3D: { x: 1.4, y: 0.6, z: 0.2 },
       activeInFrames: [2, 3, 4]
     },
@@ -428,8 +409,8 @@ export class DataService {
       subtitle: 'DIRECT RETINAL EMISSION',
       description: 'Microscopic diffraction grating channels coherent photons directly to the ocular focal plane.',
       specs: '8K Dual Photonic / 120Hz',
-      desktopPosition: { x: 18, y: 52 },
-      mobilePosition: { x: 50, y: 24 },
+      desktopPosition: { x: 12, y: 64 },
+      mobilePosition: { x: 50, y: 84 },
       anchor3D: { x: -1.3, y: -0.5, z: 0.3 },
       activeInFrames: [3, 4]
     },
@@ -442,8 +423,8 @@ export class DataService {
       subtitle: 'VAPOR-DEPOSITED SAPPHIRE',
       description: 'Ultra-dense hermetic shielding with integrated touch-sensitive acoustic waveguides and cryogenic cell.',
       specs: '99.998% Purity / 2.42 nD',
-      desktopPosition: { x: 82, y: 52 },
-      mobilePosition: { x: 50, y: 80 },
+      desktopPosition: { x: 86, y: 34 },
+      mobilePosition: { x: 50, y: 84 },
       anchor3D: { x: 1.2, y: -0.7, z: -0.3 },
       activeInFrames: [4]
     }

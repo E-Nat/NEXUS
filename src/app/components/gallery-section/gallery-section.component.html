@@ -1,44 +1,53 @@
 <section #gallerySection id="gallery-section" class="gallery-section">
   
-  <!-- Header Bar -->
-  <div class="gallery-header-bar">
-    <div class="header-left">
-      <div class="section-label">
-        <span>04 // VISUAL ARCHIVE</span>
-      </div>
-      <h2 class="gallery-title">
-        <span class="text-gradient-silver">MATERIALITY</span> &amp; <span class="text-gradient-cyan">FORM.</span>
-      </h2>
-    </div>
-
-    <!-- Active item indicator -->
-    <div class="gallery-meta font-mono">
-      <span class="meta-num">0{{ activeIndex() + 1 }}</span>
-      <span class="meta-sep">/</span>
-      <span class="meta-total">0{{ items.length }}</span>
-      <span class="meta-instruction">[ SCROLL HORIZONTALLY ]</span>
+  <!-- Subtle Background Watermark & Atmosphere -->
+  <div class="gallery-backdrop" aria-hidden="true">
+    <div #glowRef class="gallery-ambient-glow"></div>
+    <div #watermarkRef class="gallery-bg-watermark font-display">
+      ARCHIVE
     </div>
   </div>
 
-  <!-- Pinned Horizontal Scroll Track -->
-  <div class="gallery-viewport">
-    <div #trackRef class="gallery-track">
+  <div class="gallery-container">
+
+    <!-- Header Bar -->
+    <div #headerRef class="gallery-header-bar">
+      <div class="header-left">
+        <div class="section-label">
+          <span>04 // VISUAL ARCHIVE</span>
+        </div>
+        <h2 class="gallery-title">
+          <span class="title-line-1 text-gradient-silver">MATERIALITY &amp;</span>
+          <span class="title-line-2 text-gradient-cyan">FORM.</span>
+        </h2>
+      </div>
+
+      <!-- Section Telemetry Indicator -->
+      <div class="gallery-meta font-mono">
+        <span class="meta-num">0{{ items.length }}</span>
+        <span class="meta-sep">//</span>
+        <span class="meta-label">ARTIFACT ARCHIVES</span>
+      </div>
+    </div>
+
+    <!-- Responsive Cards Grid: 3-col Desktop, 2-col Tablet, 1-col Mobile -->
+    <div #cardsGridRef class="gallery-grid">
       
       <div
         *ngFor="let item of items; let i = index"
         class="gallery-card glass-panel"
-        [class.card-active]="activeIndex() === i"
+        [class.card-hovered]="hoveredIndex() === i"
         (click)="openItem(item)"
-        (mouseenter)="onHover('VIEW // 0' + item.number)"
-        (mouseleave)="onLeave()">
+        (mouseenter)="onHoverCard(i, 'INSPECT // ' + item.title)"
+        (mouseleave)="onLeaveCard()">
         
         <!-- Card Visual Display with Procedural Shapes -->
         <div class="card-visual-frame" [attr.data-visual]="item.visualType">
           
-          <!-- Abstract Visual Rendering: Monolith, Microstructure, Retina, Quantum-Flow -->
+          <!-- Abstract Visual Rendering: Monolith, Microstructure, Retina -->
           <div class="procedural-art" [ngSwitch]="item.visualType">
             
-            <!-- Type 1: Monolith Obsidian -->
+            <!-- Type 1: Monolith Obsidian (Industrial Design) -->
             <div *ngSwitchCase="'monolith'" class="art-monolith">
               <div class="monolith-slab">
                 <div class="monolith-specular"></div>
@@ -47,7 +56,7 @@
               <div class="monolith-reflection"></div>
             </div>
 
-            <!-- Type 2: Microstructure Lattice -->
+            <!-- Type 2: Microstructure Lattice (Microscopic Engineering) -->
             <div *ngSwitchCase="'microstructure'" class="art-microstructure">
               <div class="prism-grid">
                 <div class="prism-cell" *ngFor="let p of [1,2,3,4,5,6,7,8,9,10,11,12]"></div>
@@ -55,17 +64,11 @@
               <div class="lattice-glow"></div>
             </div>
 
-            <!-- Type 3: Retina Fluidity -->
+            <!-- Type 3: Retina Fluidity (Human Interaction) -->
             <div *ngSwitchCase="'retina'" class="art-retina">
               <div class="retina-orbital-ring r1"></div>
               <div class="retina-orbital-ring r2"></div>
               <div class="retina-pupil-core"></div>
-            </div>
-
-            <!-- Type 4: Quantum Flow -->
-            <div *ngSwitchCase="'quantum-flow'" class="art-quantum">
-              <div class="quantum-wave-mesh"></div>
-              <div class="quantum-singularity"></div>
             </div>
 
           </div>
@@ -98,6 +101,7 @@
       </div>
 
     </div>
+
   </div>
 
   <!-- Lightbox Fullscreen Inspection Modal -->

@@ -9,8 +9,8 @@
   [class.card-order-2]="detail.order === 2"
   [class.card-order-3]="detail.order === 3"
   [class.card-order-4]="detail.order === 4"
-  [style.left.%]="isMobile ? detail.mobilePosition.x : detail.desktopPosition.x"
-  [style.top.%]="isMobile ? detail.mobilePosition.y : detail.desktopPosition.y"
+  [class.side-left]="detail.order === 1 || detail.order === 3"
+  [class.side-right]="detail.order === 2 || detail.order === 4"
   (mouseenter)="onMouseEnter()"
   (mouseleave)="onMouseLeave()"
   (click)="onClick()">
@@ -23,19 +23,19 @@
   </div>
 
   <!-- Connecting Leader Line -->
-  <div class="leader-line-wrap" [class.leader-left]="(isMobile ? detail.mobilePosition.x : detail.desktopPosition.x) > 50">
-    <svg class="leader-line-svg" viewBox="0 0 45 20" fill="none">
+  <div class="leader-line-wrap" [class.leader-to-left]="detail.desktopPosition.x > 50">
+    <svg class="leader-line-svg" viewBox="0 0 50 20" fill="none">
       <path
-        d="M 0,10 L 40,10"
-        stroke="rgba(0, 240, 255, 0.5)"
-        stroke-width="1"
-        stroke-dasharray="2 2" />
-      <circle cx="40" cy="10" r="2" fill="#00f0ff" />
+        d="M 0,10 L 44,10"
+        stroke="rgba(0, 240, 255, 0.45)"
+        stroke-width="1.2"
+        stroke-dasharray="3 3" />
+      <circle cx="44" cy="10" r="2.5" fill="#00f0ff" />
     </svg>
   </div>
 
   <!-- Floating Technical Data Card -->
-  <div class="label-card glass-panel" [class.align-right]="(isMobile ? detail.mobilePosition.x : detail.desktopPosition.x) > 50">
+  <div class="label-card glass-panel">
     <div class="card-glow"></div>
     
     <!-- Top Telemetry Header -->
@@ -53,7 +53,7 @@
     <!-- Micro Description -->
     <p class="label-desc">{{ detail.description }}</p>
 
-    <!-- Bottom Specs Pill -->
+    <!-- Bottom Specs Divider & Technical Value -->
     <div class="label-specs font-mono">
       <span class="specs-bullet">›</span>
       <span class="specs-text">{{ detail.specs }}</span>

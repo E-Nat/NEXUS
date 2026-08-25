@@ -23,11 +23,11 @@ export class NavbarComponent implements OnInit {
 
   readonly isScrolled = signal<boolean>(false);
   readonly isMobileMenuOpen = signal<boolean>(false);
-  readonly activeSection = signal<string>('hero');
+  readonly activeTarget = signal<string>('#hero-section');
 
   public navItems = [
     { label: 'OVERVIEW', target: '#hero-section' },
-    { label: 'PRODUCT', target: '#product-section' },
+    { label: 'PRODUCT', target: '#product-reveal-section' },
     { label: 'FEATURES', target: '#features-section' },
     { label: 'SPECS', target: '#specs-section' },
     { label: 'GALLERY', target: '#gallery-section' }
@@ -52,17 +52,38 @@ export class NavbarComponent implements OnInit {
 
   private checkScroll(): void {
     if (typeof window === 'undefined') return;
-    this.isScrolled.set(window.scrollY > 40);
+    this.isScrolled.set(window.scrollY > 30);
 
-    // Section spy
-    const sections = ['gallery-section', 'specs-section', 'features-section', 'product-section', 'hero-section'];
-    const scrollPos = window.scrollY + 200;
+    // If near top of page, OVERVIEW is active
+    if (window.scrollY < 120) {
+      this.activeTarget.set('#hero-section');
+      return;
+    }
 
-    for (const secId of sections) {
-      const el = document.getElementById(secId);
-      if (el && el.offsetTop <= scrollPos) {
-        this.activeSection.set(secId.replace('-section', ''));
-        break;
+    // If near bottom of page, GALLERY is active
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 80) {
+      this.activeTarget.set('#gallery-section');
+      return;
+    }
+
+    const sections = [
+      { id: 'gallery-section', target: '#gallery-section' },
+      { id: 'specs-section', target: '#specs-section' },
+      { id: 'features-section', target: '#features-section' },
+      { id: 'product-reveal-section', target: '#product-reveal-section' },
+      { id: 'hero-section', target: '#hero-section' }
+    ];
+
+    const probeY = window.scrollY + 200;
+
+    for (const sec of sections) {
+      const el = document.getElementById(sec.id);
+      if (el) {
+        const top = el.offsetTop;
+        if (top <= probeY) {
+          this.activeTarget.set(sec.target);
+          break;
+        }
       }
     }
   }
@@ -70,11 +91,8 @@ export class NavbarComponent implements OnInit {
   public navigateTo(target: string): void {
     this.soundService.playClick();
     this.isMobileMenuOpen.set(false);
-    this.scrollService.scrollTo(target, { offset: -40 });
-  }
-
-  public toggleSound(): void {
-    this.soundService.toggleMute();
+    this.activeTarget.set(target);
+    this.scrollService.scrollTo(target, { offset: -70 });
   }
 
   public toggleMobileMenu(): void {
