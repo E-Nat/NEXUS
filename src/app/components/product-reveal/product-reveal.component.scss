@@ -346,26 +346,32 @@
   &.frame-01 {
     justify-content: flex-start;
     align-items: center;
-    padding-left: calc(3vw + 35px);
+    padding-left: clamp(24px, 4vw, 64px);
 
     .frame-content {
       max-width: 440px;
-      margin-top: 50px; // Generous vertical breathing room below Card 01
+      margin-top: clamp(160px, 22vh, 240px); // Generous vertical breathing room below Card 01
     }
   }
 
   &.frame-02 {
     justify-content: flex-start;
-    padding-left: 3vw;
+    padding-left: clamp(24px, 4vw, 64px);
+
+    .frame-content {
+      max-width: 440px;
+      margin-top: clamp(120px, 16vh, 180px);
+    }
   }
 
   &.frame-03 {
     justify-content: flex-end;
-    padding-right: 3vw;
+    padding-right: clamp(24px, 4vw, 64px);
 
     .frame-content {
       align-items: flex-end;
       text-align: right;
+      max-width: 440px;
     }
   }
 
@@ -376,7 +382,7 @@
     padding-bottom: 16px;
 
     .frame-hero-content {
-      max-width: 880px; // Protected headline safe zone in center
+      max-width: min(720px, 58vw); // Protected headline safe zone in center
       width: 100%;
       align-items: center;
       text-align: center;
