@@ -82,6 +82,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     // Play initial ambient entrance chime
     this.soundService.playChime(520, 'sine', 0.05, 0.6);
     setTimeout(() => {
+      this.threeSceneComponent?.triggerEntrance();
       this.heroSectionComponent?.triggerEntrance();
       this.scrollService.refresh();
     }, 150);

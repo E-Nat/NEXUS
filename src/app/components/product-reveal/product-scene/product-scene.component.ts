@@ -99,97 +99,101 @@ export class ProductSceneComponent implements OnInit, OnDestroy {
     const p = this.currentScrollProgress;
     const baseScaleMultiplier = this.isMobileDevice ? 0.72 : 1.0;
 
-    // 1. Entrance Phase (0.00 -> 0.22): Product enters from below, scales up, fades in
+    // 1. Phase 1 - Genesis (NEXUS ARISES / Card 01) (0.00 -> 0.22):
     if (p <= 0.22) {
-      const enterNorm = p / 0.22; // 0 to 1
-      const easeEnter = Math.sin((enterNorm * Math.PI) / 2);
+      const norm = p / 0.22; // 0 to 1
+      const settle = Math.min(1, p / 0.04);
+      const easeSettle = Math.sin((settle * Math.PI) / 2);
 
-      this.masterGroup.position.y = (-2.8 + easeEnter * 2.8) * (this.isMobileDevice ? 0.75 : 1.0);
+      this.masterGroup.position.y = (-0.4 + easeSettle * 0.4) * (this.isMobileDevice ? 0.75 : 1.0);
       this.masterGroup.position.z = 0;
-      const targetScale = (0.65 + easeEnter * 0.35) * baseScaleMultiplier;
+      const targetScale = (0.92 + easeSettle * 0.08 + norm * 0.05) * baseScaleMultiplier;
       this.masterGroup.scale.setScalar(targetScale);
 
-      this.productGroup.rotation.y = -0.8 + easeEnter * 0.8;
-      this.productGroup.rotation.x = (1 - easeEnter) * 0.4;
+      this.productGroup.rotation.y = norm * 0.6; // Gentle smooth rotation during Phase 1
+      this.productGroup.rotation.x = (1 - easeSettle) * 0.12;
       this.productGroup.rotation.z = 0;
 
-      this.setMasterOpacity(Math.min(1, enterNorm * 1.5));
+      this.setMasterOpacity(Math.min(1, 0.7 + easeSettle * 0.3));
 
-      // Reset rings
+      // Concentric rings at home position
       this.gimbalRing1.position.set(0, 0, 0);
       this.waveguideRing2.position.set(0, 0, 0);
       this.shieldRing3.position.set(0, 0, 0);
     }
-    // 2. Frame 02 - "DESIGNED TO MOVE" (0.22 -> 0.48): Product rotates, rings articulate
+    // 2. Phase 2 - Kinematics ("DESIGNED TO MOVE" / Card 02) (0.22 -> 0.48):
     else if (p <= 0.48) {
       const norm = (p - 0.22) / 0.26; // 0 to 1
       const ease = 0.5 - Math.cos(norm * Math.PI) / 2;
 
       this.masterGroup.position.y = 0;
       this.masterGroup.position.z = 0;
-      this.masterGroup.scale.setScalar((1.0 + ease * 0.05) * baseScaleMultiplier);
+      this.masterGroup.scale.setScalar((1.05 + ease * 0.05) * baseScaleMultiplier);
 
-      this.productGroup.rotation.y = 0.0 + ease * 1.15; // ~66 deg
-      this.productGroup.rotation.x = 0.0 - ease * 0.28;
-      this.productGroup.rotation.z = 0.0 + ease * 0.18;
+      this.productGroup.rotation.y = 0.6 + ease * 0.9; // ~35 deg to ~86 deg
+      this.productGroup.rotation.x = -ease * 0.28;
+      this.productGroup.rotation.z = ease * 0.18;
 
-      // Articulate gimbal rings
-      this.gimbalRing1.position.y = ease * 0.45;
-      this.gimbalRing1.position.z = ease * 0.2;
-      this.waveguideRing2.position.y = -ease * 0.35;
-      this.waveguideRing2.position.z = -ease * 0.2;
+      // Articulate gimbal rings dynamically
+      this.gimbalRing1.position.y = ease * 0.48;
+      this.gimbalRing1.position.z = ease * 0.22;
+      this.waveguideRing2.position.y = -ease * 0.38;
+      this.waveguideRing2.position.z = -ease * 0.22;
+      this.shieldRing3.position.set(0, 0, 0);
 
       this.setMasterOpacity(1);
     }
-    // 3. Frame 03 - "DESIGNED TO ADAPT" (0.48 -> 0.72): Spatial rotation & counter-spin
+    // 3. Phase 3 - Adaptive Cognition ("DESIGNED TO ADAPT" / Card 03) (0.48 -> 0.72):
     else if (p <= 0.72) {
       const norm = (p - 0.48) / 0.24; // 0 to 1
       const ease = 0.5 - Math.cos(norm * Math.PI) / 2;
 
       this.masterGroup.position.y = Math.sin(norm * Math.PI) * 0.15;
       this.masterGroup.position.z = 0;
-      this.masterGroup.scale.setScalar(1.05 * baseScaleMultiplier);
+      this.masterGroup.scale.setScalar(1.1 * baseScaleMultiplier);
 
-      this.productGroup.rotation.y = 1.15 + ease * 1.35; // to 2.5 rad (~143 deg)
+      this.productGroup.rotation.y = 1.5 + ease * 1.1; // to 2.6 rad (~150 deg)
       this.productGroup.rotation.x = -0.28 + ease * 0.58; // to +0.3 rad
       this.productGroup.rotation.z = 0.18 - ease * 0.42; // to -0.24 rad
 
-      // Dynamic ring wave
-      this.gimbalRing1.position.y = 0.45 - ease * 0.45;
-      this.waveguideRing2.position.y = -0.35 + ease * 0.35;
-      this.shieldRing3.position.x = ease * 0.3;
+      // Dynamic ring wave & expansion
+      this.gimbalRing1.position.y = 0.48 - ease * 0.48;
+      this.gimbalRing1.position.z = 0.22 - ease * 0.22;
+      this.waveguideRing2.position.y = -0.38 + ease * 0.38;
+      this.waveguideRing2.position.z = -0.22 + ease * 0.22;
+      this.shieldRing3.position.x = ease * 0.35;
 
       this.setMasterOpacity(1);
     }
-    // 4. Frame 04 - "THE NEXT EXPERIENCE" (0.72 -> 0.94): Symmetrical hero alignment
+    // 4. Phase 4 - The Horizon ("THE NEXT EXPERIENCE" / Card 04) (0.72 -> 0.94):
     else if (p <= 0.94) {
       const norm = (p - 0.72) / 0.22; // 0 to 1
       const ease = 0.5 - Math.cos(norm * Math.PI) / 2;
 
       this.masterGroup.position.y = 0;
       this.masterGroup.position.z = 0;
-      this.masterGroup.scale.setScalar((1.05 + ease * 0.05) * baseScaleMultiplier);
+      this.masterGroup.scale.setScalar((1.1 + ease * 0.05) * baseScaleMultiplier);
 
-      this.productGroup.rotation.y = 2.5 + ease * 0.64; // to ~3.14 rad (180 deg)
+      this.productGroup.rotation.y = 2.6 + ease * 0.54; // to Math.PI (180 deg)
       this.productGroup.rotation.x = 0.30 - ease * 0.25; // to 0.05
       this.productGroup.rotation.z = -0.24 + ease * 0.24; // to 0.0
 
       this.gimbalRing1.position.set(0, 0, 0);
       this.waveguideRing2.position.set(0, 0, 0);
-      this.shieldRing3.position.set(0, 0, 0);
+      this.shieldRing3.position.x = 0.35 * (1 - ease);
 
       this.setMasterOpacity(1);
     }
-    // 5. Exit Transition to Features (0.94 -> 1.00): Recedes smoothly into distance
+    // 5. Exit Transition to Features (0.94 -> 1.00):
     else {
       const norm = (p - 0.94) / 0.06; // 0 to 1
       const ease = norm * norm; // accelerate away
 
       this.masterGroup.position.z = -ease * 5.5;
       this.masterGroup.position.y = ease * 0.8;
-      this.masterGroup.scale.setScalar((1.10 - ease * 0.45) * baseScaleMultiplier);
+      this.masterGroup.scale.setScalar((1.15 - ease * 0.45) * baseScaleMultiplier);
 
-      this.productGroup.rotation.y = 3.14 + norm * 0.5;
+      this.productGroup.rotation.y = Math.PI + norm * 0.5;
 
       const exitOpacity = Math.max(0, 1 - norm * 1.25);
       this.setMasterOpacity(exitOpacity);
@@ -501,7 +505,7 @@ export class ProductSceneComponent implements OnInit, OnDestroy {
           this.masterGroup.rotation.z = -this.mouseX * 0.18;
 
           // Continuous gentle idle floating breathing
-          this.productGroup.position.y += Math.sin(elapsedTime * 1.6) * 0.0008;
+          this.productGroup.position.y = Math.sin(elapsedTime * 1.6) * 0.04;
 
           // Ring independent gyroscopic micro rotations
           if (this.gimbalRing1) this.gimbalRing1.rotation.z += 0.004;

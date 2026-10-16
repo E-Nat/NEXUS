@@ -52,6 +52,7 @@ export class ThreeSceneComponent implements OnInit, OnDestroy {
   private targetMouseX = 0;
   private targetMouseY = 0;
   private clock = new THREE.Clock();
+  private baseY = 0;
 
   // Scroll triggers
   private scrollTriggers: ScrollTrigger[] = [];
@@ -72,6 +73,7 @@ export class ThreeSceneComponent implements OnInit, OnDestroy {
 
     this.initThree();
     this.initLights();
+    this.createProductModel();
     this.createParticles();
     this.createGrid();
     this.initMouseListener();
@@ -86,6 +88,18 @@ export class ThreeSceneComponent implements OnInit, OnDestroy {
     this.scrollTriggers.forEach(st => st.kill());
     this.resizeObserver?.disconnect();
     this.disposeThree();
+  }
+
+  public triggerEntrance(): void {
+    if (!this.productGroup) return;
+    gsap.fromTo(this.productGroup.scale,
+      { x: 0.15, y: 0.15, z: 0.15 },
+      { x: 1.0, y: 1.0, z: 1.0, duration: 1.8, ease: 'power3.out' }
+    );
+    gsap.fromTo(this.productGroup.rotation,
+      { y: -Math.PI },
+      { y: 0, duration: 2.2, ease: 'power3.out' }
+    );
   }
 
   public setMode(mode: 'default' | 'exploded' | 'thermal'): void {
@@ -194,7 +208,9 @@ export class ThreeSceneComponent implements OnInit, OnDestroy {
       clearcoat: 1.0,
       clearcoatRoughness: 0.1,
       reflectivity: 0.9,
-      wireframe: false
+      wireframe: false,
+      transparent: true,
+      opacity: 1.0
     });
     this.coreMesh = new THREE.Mesh(coreGeo, coreMat);
     this.productGroup.add(this.coreMesh);
@@ -216,7 +232,9 @@ export class ThreeSceneComponent implements OnInit, OnDestroy {
       color: 0x222938,
       metalness: 0.95,
       roughness: 0.2,
-      wireframe: false
+      wireframe: false,
+      transparent: true,
+      opacity: 1.0
     });
     this.outerRing1 = new THREE.Mesh(ringGeo1, ringMat1);
     this.outerRing1.rotation.x = Math.PI / 3;
@@ -240,7 +258,9 @@ export class ThreeSceneComponent implements OnInit, OnDestroy {
       emissive: 0x8b5cf6,
       emissiveIntensity: 0.3,
       metalness: 0.9,
-      roughness: 0.3
+      roughness: 0.3,
+      transparent: true,
+      opacity: 1.0
     });
     this.outerRing3 = new THREE.Mesh(ringGeo3, ringMat3);
     this.outerRing3.rotation.x = -Math.PI / 4;
@@ -310,6 +330,34 @@ export class ThreeSceneComponent implements OnInit, OnDestroy {
   private initScrollAnimations(): void {
     if (this.animService.isReducedMotion()) return;
 
+    // Timeline 0: Hero Exit Scroll — smoothly translates 3D model down and fades out into product reveal
+    const heroST = ScrollTrigger.create({
+      trigger: '#hero-section',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: true,
+      onUpdate: (self) => {
+        const p = self.progress;
+        this.baseY = -p * 3.2;
+        if (this.productGroup) {
+          const s = Math.max(0.001, 1 - p * 0.7);
+          this.productGroup.scale.set(s, s, s);
+          this.productGroup.traverse((child) => {
+            if (child instanceof THREE.Mesh && child.material) {
+              const baseOpacity = (child === this.innerCoreMesh || child === this.outerRing2) ? 0.85 : 1.0;
+              const alpha = Math.max(0, (1 - p * 1.35) * baseOpacity);
+              if (Array.isArray(child.material)) {
+                child.material.forEach(m => { m.opacity = alpha; });
+              } else {
+                child.material.opacity = alpha;
+              }
+            }
+          });
+        }
+      }
+    });
+    this.scrollTriggers.push(heroST);
+
     // Timeline 1: Specs Section particle swirl
     const specsST = ScrollTrigger.create({
       trigger: '#specs-section',
@@ -363,8 +411,8 @@ export class ThreeSceneComponent implements OnInit, OnDestroy {
         this.mouseY += (this.targetMouseY - this.mouseY) * 0.05;
 
         if (this.productGroup) {
-          // Idle floating oscillation
-          this.productGroup.position.y += Math.sin(elapsedTime * 1.5) * 0.0015;
+          // Bounded idle floating oscillation
+          this.productGroup.position.y = this.baseY + Math.sin(elapsedTime * 1.5) * 0.05;
           this.productGroup.rotation.y += 0.004;
 
           // Parallax tilt from cursor
