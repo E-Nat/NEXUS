@@ -38,9 +38,25 @@
       </ng-container>
     </div>
 
-    <!-- Right Controls: Reserve CTA & Mobile Toggle -->
+    <!-- Right Controls: Audio Synth, Reserve CTA & Mobile Toggle -->
     <div class="nav-actions">
       
+      <!-- Audio Toggle Button -->
+      <button
+        class="sound-btn"
+        (click)="toggleSound()"
+        [title]="soundService.isMuted() ? 'Unmute Audio Experience' : 'Mute Audio'"
+        (mouseenter)="onHoverLink(soundService.isMuted() ? 'AUDIO OFF' : 'AUDIO ON')"
+        (mouseleave)="onLeaveLink()">
+        <span class="sound-label">{{ soundService.isMuted() ? 'AUDIO: OFF' : 'AUDIO: ON' }}</span>
+        <div class="sound-bars" [class.sound-playing]="!soundService.isMuted()">
+          <span class="bar bar-1"></span>
+          <span class="bar bar-2"></span>
+          <span class="bar bar-3"></span>
+          <span class="bar bar-4"></span>
+        </div>
+      </button>
+
       <!-- Reserve CTA Button -->
       <button
         class="btn-nexus-primary nav-cta-btn"
@@ -84,6 +100,17 @@
       </div>
 
       <div class="drawer-footer">
+        <div class="drawer-audio-toggle">
+          <button class="sound-btn w-full" (click)="toggleSound()">
+            <span class="sound-label">{{ soundService.isMuted() ? 'AUDIO: MUTED' : 'AUDIO: ACTIVE' }}</span>
+            <div class="sound-bars" [class.sound-playing]="!soundService.isMuted()">
+              <span class="bar bar-1"></span>
+              <span class="bar bar-2"></span>
+              <span class="bar bar-3"></span>
+              <span class="bar bar-4"></span>
+            </div>
+          </button>
+        </div>
         <button class="btn-nexus-primary w-full" (click)="onReserve()">
           <span>RESERVE NEXUS</span>
           <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">

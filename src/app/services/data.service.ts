@@ -305,6 +305,25 @@ export class DataService {
         { label: 'Context Engine', value: 'Continuous Predictive' }
       ],
       visualType: 'retina'
+    },
+    {
+      id: 'future',
+      number: '04',
+      title: 'NEXUS FUTURE',
+      subtitle: 'AUTONOMOUS ADAPTIVE EVOLUTION',
+      category: 'NEXT HORIZON',
+      description: 'A platform engineered to expand its capabilities through autonomous firmware maturation.',
+      fullStory: 'NEXUS is designed not as a static consumer product, but as an evolving quantum terminal. As collective intelligence models progress, the localized tensor hardware continuously reconfigures its synaptic pathways.',
+      accentColor: '#10b981',
+      tags: ['CONTINUOUS EVOLUTION', 'QUANTUM SYNAPSE', 'FUTURE-PROOF'],
+      dimensions: 'Multi-Generation Architecture',
+      material: 'Reconfigurable Quantum FPGA Fabric',
+      specs: [
+        { label: 'Architecture Life', value: '10+ Years' },
+        { label: 'Synaptic Nodes', value: '1.2 Billion' },
+        { label: 'Security Enclave', value: 'Post-Quantum LWE' }
+      ],
+      visualType: 'quantum-flow'
     }
   ];
 

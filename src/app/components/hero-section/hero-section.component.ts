@@ -37,6 +37,7 @@ export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
   private isBrowser: boolean;
   private cleanupMagnetic: (() => void) | null = null;
   private exitScrollTrigger: ScrollTrigger | null = null;
+  private entranceTimeline: gsap.core.Timeline | null = null;
 
   constructor(
     @Inject(PLATFORM_ID) platformId: object,
@@ -57,6 +58,14 @@ export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
       this.cleanupMagnetic = this.animService.applyMagnetic(this.heroCtaRef.nativeElement, 0.35);
     }
 
+    if (!this.animService.isReducedMotion()) {
+      gsap.set('.hero-badge, .hero-telemetry-tag', { y: 25, opacity: 0, filter: 'blur(8px)' });
+      gsap.set('.hero-word', { y: 60, opacity: 0, filter: 'blur(12px)', rotateX: 25 });
+      gsap.set('.hero-description', { y: 30, opacity: 0, filter: 'blur(6px)' });
+      gsap.set('.hero-actions-row, .hero-scroll-indicator', { y: 25, opacity: 0 });
+      gsap.set('.hero-footer-telemetry', { opacity: 0, y: 15 });
+    }
+
     this.initExitScroll();
   }
 
@@ -68,6 +77,10 @@ export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.exitScrollTrigger) {
       this.exitScrollTrigger.kill();
       this.exitScrollTrigger = null;
+    }
+    if (this.entranceTimeline) {
+      this.entranceTimeline.kill();
+      this.entranceTimeline = null;
     }
   }
 
@@ -93,33 +106,40 @@ export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
   public triggerEntrance(): void {
     if (!this.isBrowser || this.animService.isReducedMotion()) return;
 
-    const tl = gsap.timeline({ delay: 0.1 });
+    if (this.entranceTimeline) {
+      this.entranceTimeline.kill();
+    }
+
+    const tl = gsap.timeline({ delay: 0.05 });
+    this.entranceTimeline = tl;
 
     // 1. Badge & Meta
-    tl.fromTo('.hero-badge, .hero-telemetry-tag',
-      { y: 25, opacity: 0, filter: 'blur(8px)' },
+    tl.to('.hero-badge, .hero-telemetry-tag',
       { y: 0, opacity: 1, filter: 'blur(0px)', duration: 0.9, stagger: 0.1, ease: 'power3.out' }
     );
 
     // 2. Headline word-by-word reveal
-    tl.fromTo('.hero-word',
-      { y: 60, opacity: 0, filter: 'blur(12px)', rotateX: 25 },
+    tl.to('.hero-word',
       { y: 0, opacity: 1, filter: 'blur(0px)', rotateX: 0, duration: 1.2, stagger: 0.12, ease: 'power4.out' },
       '-=0.6'
     );
 
     // 3. Subtitle
-    tl.fromTo('.hero-description',
-      { y: 30, opacity: 0, filter: 'blur(6px)' },
+    tl.to('.hero-description',
       { y: 0, opacity: 1, filter: 'blur(0px)', duration: 0.9, ease: 'power3.out' },
       '-=0.7'
     );
 
-    // 4. CTAs
-    tl.fromTo('.hero-actions-row',
-      { y: 25, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' },
+    // 4. CTAs & Scroll indicator
+    tl.to('.hero-actions-row, .hero-scroll-indicator',
+      { y: 0, opacity: 1, duration: 0.8, stagger: 0.12, ease: 'power3.out' },
       '-=0.5'
+    );
+
+    // 5. Bottom telemetry specs
+    tl.to('.hero-footer-telemetry',
+      { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' },
+      '-=0.4'
     );
   }
 
@@ -141,5 +161,10 @@ export class HeroSectionComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public onLeaveBtn(): void {
     this.cursorService.resetCursor();
+  }
+
+  public scrollToProduct(): void {
+    this.soundService.playClick();
+    this.scrollService.scrollTo('#product-reveal-section');
   }
 }

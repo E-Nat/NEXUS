@@ -9,14 +9,14 @@
 
   /* Left-flank cards (Card 01 & Card 03) */
   &.side-left {
-    left: clamp(24px, 5.5vw, 84px);
+    left: clamp(28px, 4.5vw, 72px);
     right: auto;
     transform: translateX(-24px) scale(0.96);
     filter: blur(6px);
-    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-                filter 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-                visibility 0.35s;
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.4s;
 
     .leader-line-wrap {
       position: absolute;
@@ -59,14 +59,14 @@
 
   /* Right-flank cards (Card 02 & Card 04) */
   &.side-right {
-    right: clamp(24px, 5.5vw, 84px);
+    right: clamp(28px, 4vw, 64px);
     left: auto;
     transform: translateX(24px) scale(0.96);
     filter: blur(6px);
-    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-                filter 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-                visibility 0.35s;
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.4s;
 
     .leader-line-wrap {
       position: absolute;
@@ -110,19 +110,19 @@
 
   /* Specific vertical anchors within .reveal-labels-overlay */
   &.card-order-1 {
-    top: clamp(20px, 3.5vh, 48px);
+    top: clamp(75px, 10vh, 115px); // Slightly below section label badge with clear breathing room
   }
 
   &.card-order-2 {
-    top: clamp(20px, 3.5vh, 48px);
+    top: clamp(75px, 10vh, 115px);
   }
 
   &.card-order-3 {
-    top: clamp(200px, 30vh, 310px);
+    top: clamp(190px, 28vh, 290px);
   }
 
   &.card-order-4 {
-    top: clamp(80px, 12vh, 140px);
+    top: clamp(75px, 10.5vh, 115px); // Below phase tag, above progress rail, clearance from headline
   }
 }
 

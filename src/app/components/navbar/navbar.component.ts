@@ -95,6 +95,10 @@ export class NavbarComponent implements OnInit {
     this.scrollService.scrollTo(target, { offset: -70 });
   }
 
+  public toggleSound(): void {
+    this.soundService.toggleMute();
+  }
+
   public toggleMobileMenu(): void {
     this.soundService.playClick();
     this.isMobileMenuOpen.set(!this.isMobileMenuOpen());
